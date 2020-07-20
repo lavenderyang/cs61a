@@ -81,3 +81,34 @@ def is_prime(n):
         i += 1
     return True 
 
+# Alternative, the while loop's condtional expression could ensure that k is less than or equal to the square root of n. 
+def is_prime_sqrt(n):
+    if n == 1: 
+        return False 
+    i = 2
+    while n >= i * i: 
+        if n % i == 0: 
+            return False
+        i += 1
+    return True 
+
+# 2 Enviornment Diagrams
+# An enviornment diagram is a model we use to keep track of all the variables that have been defined 
+# and the values they are bound to. We will be using this tool throughout the course to understand 
+# complex programs involving several different assignments and function calls. 
+
+# Remember that programs are simply a set of statements, or instructions - so drawing diagrams that 
+# represent these programs also involves following sets of instructions! 
+
+# Assignment Statements 
+# Assignment statements, such as x = 3, define variables in programs. 
+# To execute one in an environment diagram, record the variable name and the value: 
+# 1. Evaluate the expression on the right side of the = sign
+# 2. Write the variable name and the expression's value in the current frame. 
+
+# def Statements 
+# def statements create function objects and bind them to a name. 
+
+# Call Expressions
+# Call expressions, such as square(2), apply functions to arguments. 
+
