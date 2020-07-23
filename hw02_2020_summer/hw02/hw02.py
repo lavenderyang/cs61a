@@ -31,7 +31,11 @@ def product(n, term):
     162
     """
     "*** YOUR CODE HERE ***"
-
+    i, total = 1, 1
+    while i <= n:
+        total *= term(i)
+        i += 1
+    return total
 
 def accumulate(combiner, base, n, term):
     """Return the result of combining the first n terms in a sequence and base.
@@ -56,6 +60,11 @@ def accumulate(combiner, base, n, term):
     16
     """
     "*** YOUR CODE HERE ***"
+    i, total = 1, base
+    while i <= n:
+        total = combiner(total, term(i))
+        i += 1
+    return total
 
 def summation_using_accumulate(n, term):
     """Returns the sum of term(1) + ... + term(n). The implementation
@@ -72,6 +81,7 @@ def summation_using_accumulate(n, term):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(add, 0, n, term)
 
 def product_using_accumulate(n, term):
     """An implementation of product using accumulate.
@@ -87,6 +97,7 @@ def product_using_accumulate(n, term):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(mul, 1, n, term)
 
 
 def compose1(func1, func2):
@@ -110,7 +121,33 @@ def make_repeater(func, n):
     5
     """
     "*** YOUR CODE HERE ***"
+    def start_repeater(i):
+        counter = n
+        while counter > 0:
+            i = func(i)
+            counter -= 1
+        return i 
+    return start_repeater
 
+
+def make_repeater_alt(func, n):
+    """Return the function that computes the nth application of func.
+    For an extra challenge, try defining make_repeater using compose1 and your accumulate function in a single one-line return statement
+
+    >>> add_three = make_repeater_alt(increment, 3)
+    >>> add_three(5)
+    8
+    >>> make_repeater_alt(triple, 5)(1) # 3 * 3 * 3 * 3 * 3 * 1
+    243
+    >>> make_repeater_alt(square, 2)(5) # square(square(5))
+    625
+    >>> make_repeater_alt(square, 4)(5) # square(square(square(square(5))))
+    152587890625
+    >>> make_repeater_alt(square, 0)(5) # Yes, it makes sense to apply the function zero times!
+    5
+    """
+    "*** YOUR CODE HERE ***"
+    return accumulate(compose1, lambda k: k, n, lambda k: func)
 
 def zero(f):
     return lambda x: x
@@ -121,10 +158,12 @@ def successor(n):
 def one(f):
     """Church numeral 1: same as successor(zero)"""
     "*** YOUR CODE HERE ***"
+    return lambda x: f(x)
 
 def two(f):
     """Church numeral 2: same as successor(successor(zero))"""
     "*** YOUR CODE HERE ***"
+    return lambda x: f(f(x))
 
 three = successor(two)
 
@@ -141,6 +180,7 @@ def church_to_int(n):
     3
     """
     "*** YOUR CODE HERE ***"
+    return n(lambda x: x + 1)(0)
 
 def add_church(m, n):
     """Return the Church numeral for m + n, for Church numerals m and n.
@@ -149,6 +189,7 @@ def add_church(m, n):
     5
     """
     "*** YOUR CODE HERE ***"
+    return lambda f: lambda x: m(f)(n(f)(x))
 
 def mul_church(m, n):
     """Return the Church numeral for m * n, for Church numerals m and n.
@@ -160,6 +201,7 @@ def mul_church(m, n):
     12
     """
     "*** YOUR CODE HERE ***"
+    return lambda f: m(n(f))
 
 def pow_church(m, n):
     """Return the Church numeral m ** n, for Church numerals m and n.
@@ -170,4 +212,5 @@ def pow_church(m, n):
     9
     """
     "*** YOUR CODE HERE ***"
+    return n(m)
 
