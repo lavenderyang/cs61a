@@ -12,6 +12,12 @@ def pascal(row, column):
     3
     """
     "*** YOUR CODE HERE ***"
+    if column == 0: 
+        return 1
+    elif row == 0: 
+        return 0
+    else: 
+        return pascal(row-1, column) + pascal(row-1, column - 1)
 
 
 def compose1(f, g):
@@ -40,6 +46,9 @@ def repeated(f, n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n == 0: 
+        return lambda x: x
+    return compose1(f, repeated(f, n-1))
 
 
 def num_eights(x):
@@ -64,6 +73,11 @@ def num_eights(x):
     True
     """
     "*** YOUR CODE HERE ***"
+    if x % 10 == 8: 
+        return 1 + num_eights(x // 10)
+    elif x < 10: 
+        return 0 
+    return num_eights(x // 10)
 
 
 def pingpong(n):
@@ -99,4 +113,17 @@ def pingpong(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    # We need to keep track of a few things: 
+    # - direction: the value track if go up or go down 
+    # - result: the value starting from 1 and finally as a returned values 
+    # - index: the value to track the where the number is at  
+    def pingpong_helper(result, index, direction):
+        if index == n:
+            return result 
+        elif num_eights(index) > 0 or index % 8 == 0: 
+            return pingpong_helper(result-direction, index+1, -direction)
+        else: 
+            return pingpong_helper(result+direction, index+1, direction)
+    return pingpong_helper(1, 1, 1)
+
 
