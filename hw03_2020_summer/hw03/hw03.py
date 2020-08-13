@@ -21,6 +21,7 @@ def composer(func=lambda x: x):
     """
     def func_adder(g):
         "*** YOUR CODE HERE ***"
+        return composer(lambda x: func(g(x)))
     return func, func_adder
 
 
@@ -43,6 +44,10 @@ def g(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n in (1, 2, 3):  
+        return n 
+    elif n > 3: 
+        return g(n - 1) + 2 * g(n - 2) + 3 * g(n - 3)
 
 def g_iter(n):
     """Return the value of G(n), computed iteratively.
@@ -63,6 +68,15 @@ def g_iter(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n == 1 or n == 2 or n == 3:  
+        return n 
+    a, b, c = 1, 2, 3
+    while n > 3: 
+        a, b, c = b, c, c + 2*b + 3 *a 
+        n -= 1
+    return c
+
+
 
 
 def missing_digits(n):
@@ -93,6 +107,10 @@ def missing_digits(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10: 
+        return 0
+    diff = n % 10 - n // 10 % 10 
+    return max (diff - 1, 0) + missing_digits(n // 10)
 
 
 def count_change(total):
@@ -112,6 +130,17 @@ def count_change(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def change_helper(total, small_coin):
+        # base case
+        if total == 0: 
+            return 1
+        elif small_coin > total: 
+            return 0
+        return change_helper(total - small_coin, small_coin) + change_helper(total, small_coin * 2)
+        # do not include the smallest coin
+        # do include the smallest coin
+        # add both of these cases 
+    return change_helper(total, 1)
 
 
 def print_move(origin, destination):
@@ -147,8 +176,23 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
-
-
+    # Recrusive In Design
+    
+    # Base Case
+    # n == 1
+    # Just move the piece from start to end
+    if n == 1: 
+        print_move(start, end)
+    # Recursive Case
+    else: 
+        middle = 6 - start - end
+        # Move n-1 to the middle
+        move_stack(n-1, start, middle)
+        # Move the bottom piece (1) to the end
+        print_move(start, end)
+        # Move n-1 to the end
+        move_stack(n-1, middle, end)
+         
 from operator import sub, mul
 
 def make_anonymous_factorial():
@@ -161,5 +205,5 @@ def make_anonymous_factorial():
     >>> check(HW_SOURCE_FILE, 'make_anonymous_factorial', ['Assign', 'AugAssign', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
+    return (lambda f: lambda k: f(f, k))(lambda f, k: k if k == 1 else mul(k, f(f, sub(k, 1))))
 
