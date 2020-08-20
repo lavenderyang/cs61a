@@ -180,14 +180,12 @@ def add_chars(w1, w2):
     True
     """
     "*** YOUR CODE HERE ***"
-    def chars_helper(w1, w2, add): 
-        if not w1: 
-            return add + w2
-        elif w1[0] == w2[0]:
-            return chars_helper(w1[1:], w2[1:], add)
-        else:
-            return chars_helper(w1, w2[1:], add + w2[0])
-    return chars_helper(w1, w2, "")
+    if not w1: 
+        return w2
+    elif w1[0] == w2[0]:
+        return add_chars(w1[1:], w2[1:])
+    else:
+        return w2[0] + add_chars(w1, w2[1:])
 
     
 
