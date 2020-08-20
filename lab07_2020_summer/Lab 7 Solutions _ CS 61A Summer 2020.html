@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)https://cs61a.org/lab/sol-lab07/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="CS 61A: Structure and Interpretation of Computer Programs">
+    <meta name="keywords" content="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS">
+    <meta name="author" content="Chae Park, Kavi Gupta, Ryan Moughan">
+    
+    <meta name="viewport" content="width=device-width">
+
+    <script src="./Lab 7 Solutions _ CS 61A Summer 2020_files/jquery.min.js.download"></script>
+    <script src="./Lab 7 Solutions _ CS 61A Summer 2020_files/bootstrap.min.js.download"></script>
+    <script src="./Lab 7 Solutions _ CS 61A Summer 2020_files/hl.js.download"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="./Lab 7 Solutions _ CS 61A Summer 2020_files/dark-mode.js.download"></script>
+    <link rel="stylesheet" href="./Lab 7 Solutions _ CS 61A Summer 2020_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./Lab 7 Solutions _ CS 61A Summer 2020_files/css">
+    <link rel="stylesheet" href="./Lab 7 Solutions _ CS 61A Summer 2020_files/style.css">
+    <link rel="stylesheet" href="./Lab 7 Solutions _ CS 61A Summer 2020_files/mono-blue.css">
+    <link rel="icon" href="https://cs61a.org/assets/images/favicon.ico">
+
+    
+
+<link rel="stylesheet" type="text/css" href="./Lab 7 Solutions _ CS 61A Summer 2020_files/lab.css">
+
+
+    <title>
+Lab 7 Solutions | CS 61A Summer 2020
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://cs61a.org/">
+            <img style="max-width:60px; margin-top: -20px;" class="logo" src="./Lab 7 Solutions _ CS 61A Summer 2020_files/logo.png">
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://cs61a.org/weekly.html">Weekly Schedule</a></li>
+            <li><a href="https://cs61a.org/office-hours.html">Office Hours</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="https://cs61a.org/lab/sol-lab07/#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Staff
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="https://cs61a.org/instructor.html">Instructors</a></li>
+                <li><a href="https://cs61a.org/TAs.html">TAs</a></li>
+                <li><a href="https://cs61a.org/tutors.html">Tutors</a></li>
+                <!-- <li><a href="/academic-interns.html">Academic Interns</a></li> -->
+              </ul>
+            </li>
+            <li><a href="https://cs61a.org/resources.html">Resources</a></li>
+            <li><a href="https://cs61a.org/articles/about.html">Syllabus</a></li>
+            <li><a href="https://piazza.com/berkeley/summer2020/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="https://denero.org/feedback.html" target="_blank">Feedback</a></li>
+            <li><a href="https://edge.edx.org/courses/course-v1:BerkeleyX+CSW61A+2020_SP">EdX</a></li>
+            <!-- <li><a href="https://scheme.cs61a.org">Scheme</a></li> -->
+            <!-- <li><a href="https://sql.cs61a.org">SQL</a></li> -->
+            <li><a href="https://code.cs61a.org/">Code</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class="row">
+  <div class="col-md-9">
+    <header>
+      <h1>
+        
+Lab 7 Solutions
+
+        
+        
+        <ul class="inline-block list-inline">
+          <li><a href="https://cs61a.org/lab/sol-lab07/lab07.zip" class="label label-outline">lab07.zip</a></li>
+        </ul>
+        
+        
+      </h1>
+    </header>
+    
+<h2>Solution Files</h2>
+
+
+    
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="recursion-and-tree-recursion">Recursion and Tree Recursion</h2>
+
+
+<h3 class="question" id="q1">Q1: Subsequences</h3>
+
+<p>A subsequence of a sequence <code>S</code> is a sequence of elements from <code>S</code>, in the same
+order they appear in <code>S</code>, but possibly with elements missing.  Thus, the lists
+<code>[]</code>, <code>[1, 3]</code>, <code>[2]</code>, and <code>[1, 2, 3]</code> are some (but not all) of the
+subsequences of <code>[1, 2, 3]</code>. Write a function that takes a list and returns a
+list of lists, for which each individual list is a subsequence of the original
+input.</p>
+
+<p>In order to accomplish this, you might first want to write a function <code>insert_into_all</code>
+that takes an item and a list of lists, adds the item to the beginning of nested list,
+and returns the resulting list.</p>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">insert_into_all</span><span class="hljs-params">(item, nested_list)</span>:</span>
+    <span class="hljs-string">"""Assuming that nested_list is a list of lists, return a new list
+    consisting of all the lists in nested_list, but with item added to
+    the front of each.
+
+    &gt;&gt;&gt; nl = [[], [1, 2], [3]]
+    &gt;&gt;&gt; insert_into_all(0, nl)
+    [[0], [0, 1, 2], [0, 3]]
+    """</span>
+<div class="sol-highlight">    <span class="hljs-keyword">return</span> [[item] + lst <span class="hljs-keyword">for</span> lst <span class="hljs-keyword">in</span> nested_list]</div>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">subseqs</span><span class="hljs-params">(s)</span>:</span>
+    <span class="hljs-string">"""Assuming that S is a list, return a nested list of all subsequences
+    of S (a list of lists). The subsequences can appear in any order.
+
+    &gt;&gt;&gt; seqs = subseqs([1, 2, 3])
+    &gt;&gt;&gt; sorted(seqs)
+    [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]
+    &gt;&gt;&gt; subseqs([])
+    [[]]
+    """</span>
+<div class="sol-highlight">    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> s:</div><div class="sol-highlight">        <span class="hljs-keyword">return</span> [[]]</div>    <span class="hljs-keyword">else</span>:
+<div class="sol-highlight">        subset = subseqs(s[<span class="hljs-number">1</span>:])</div><div class="sol-highlight">        <span class="hljs-keyword">return</span> insert_into_all(s[<span class="hljs-number">0</span>], subset) + subset</div></code></pre>
+
+</solution>
+
+<br>
+
+
+            <iframe width="560" height="315" src="./Lab 7 Solutions _ CS 61A Summer 2020_files/OwRa5a--dbY.html" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<br>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q subseqs</code></pre>
+
+<h3 class="question" id="q2">Q2: Increasing Subsequences</h3>
+
+<p>Just like the last question, we want to write a function that takes a list and
+returns a list of lists, where each individual list is a subsequence of the
+original input.</p>
+
+<p>This time we have another condition: we only want the subsequences for which
+consecutive elements are <em>nondecreasing</em>.  For example, <code>[1, 3, 2]</code> is a
+subsequence of <code>[1, 3, 2, 4]</code>, but since 2 &lt; 3, this subsequence would <em>not</em>
+be included in our result.</p>
+
+<p><strong>Fill in the blanks</strong> to complete the implementation of the <code>inc_subseqs</code>
+function. You may assume that the input list contains no negative elements.</p>
+
+<p>You may use the provided helper function <code>insert_into_all</code>, which takes in an
+<code>item</code> and a list of lists and inserts the <code>item</code> to the front of each list.</p>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">inc_subseqs</span><span class="hljs-params">(s)</span>:</span>
+    <span class="hljs-string">"""Assuming that S is a list, return a nested list of all subsequences
+    of S (a list of lists) for which the elements of the subsequence
+    are strictly nondecreasing. The subsequences can appear in any order.
+
+    &gt;&gt;&gt; seqs = inc_subseqs([1, 3, 2])
+    &gt;&gt;&gt; sorted(seqs)
+    [[], [1], [1, 2], [1, 3], [2], [3]]
+    &gt;&gt;&gt; inc_subseqs([])
+    [[]]
+    &gt;&gt;&gt; seqs2 = inc_subseqs([1, 1, 2])
+    &gt;&gt;&gt; sorted(seqs2)
+    [[], [1], [1], [1, 1], [1, 1, 2], [1, 2], [1, 2], [2]]
+    """</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">subseq_helper</span><span class="hljs-params">(s, prev)</span>:</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> s:
+<div class="sol-highlight">            <span class="hljs-keyword">return</span> [[]]</div>        <span class="hljs-keyword">elif</span> s[<span class="hljs-number">0</span>] &lt; prev:
+<div class="sol-highlight">            <span class="hljs-keyword">return</span> subseq_helper(s[<span class="hljs-number">1</span>:], prev)</div>        <span class="hljs-keyword">else</span>:
+<div class="sol-highlight">            a = subseq_helper(s[<span class="hljs-number">1</span>:], s[<span class="hljs-number">0</span>])</div><div class="sol-highlight">            b = subseq_helper(s[<span class="hljs-number">1</span>:], prev)</div><div class="sol-highlight">            <span class="hljs-keyword">return</span> insert_into_all(s[<span class="hljs-number">0</span>], a) + b</div><div class="sol-highlight">    <span class="hljs-keyword">return</span> subseq_helper(s, <span class="hljs-number">0</span>)</div></code></pre>
+
+</solution>
+
+<br>
+
+
+            <iframe width="560" height="315" src="./Lab 7 Solutions _ CS 61A Summer 2020_files/hz7dHw3c5fc.html" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<br>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q inc_subseqs</code></pre>
+
+
+<h2 id="mutable-lists">Mutable Lists</h2>
+
+<h3 class="question" id="q3">Q3: Trade</h3>
+
+<p>In the integer market, each participant has a list of positive integers to
+trade. When two participants meet, they trade the smallest non-empty prefix of
+their list of integers. A prefix is a slice that starts at index
+0.</p>
+
+<p>Write a function <code>trade</code> that exchanges the first <code>m</code> elements of list <code>first</code>
+with the first <code>n</code> elements of list <code>second</code>, such that the sums of those
+elements are equal, and the sum is as small as possible. If no such prefix
+exists, return the string <code>'No deal!'</code> and do not change either list. Otherwise
+change both lists and return <code>'Deal!'</code>. A partial implementation is provided.</p>
+
+<blockquote><p><strong>Hint:</strong> You can mutate a slice of a list using <em>slice assignment</em>. To do so, specify
+a slice of the list <code>[i:j]</code> on the left-hand side of an assignment statement
+and another list on the right-hand side of the assignment statement. The
+operation will replace the entire given slice of the list from <code>i</code> inclusive
+to <code>j</code> exclusive with the elements from the given list. The slice and the
+given list need not be the same length.</p>
+
+<pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>a = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]
+<span class="hljs-meta">&gt;&gt;&gt; </span>b = a
+<span class="hljs-meta">&gt;&gt;&gt; </span>a[<span class="hljs-number">2</span>:<span class="hljs-number">5</span>] = [<span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>]
+<span class="hljs-meta">&gt;&gt;&gt; </span>a
+[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">6</span>]
+<span class="hljs-meta">&gt;&gt;&gt; </span>b
+[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">6</span>]</code></pre>
+
+<p>Additionally, recall that the starting and ending indices for a slice can be left out
+and Python will use a default value. <code>lst[i:]</code> is the same as <code>lst[i:len(lst)]</code>, and
+<code>lst[:j]</code> is the same as <code>lst[0:j]</code>.</p></blockquote>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">trade</span><span class="hljs-params">(first, second)</span>:</span>
+    <span class="hljs-string">"""Exchange the smallest prefixes of first and second that have equal sum.
+
+    &gt;&gt;&gt; a = [1, 1, 3, 2, 1, 1, 4]
+    &gt;&gt;&gt; b = [4, 3, 2, 7]
+    &gt;&gt;&gt; trade(a, b) # Trades 1+1+3+2=7 for 4+3=7
+    'Deal!'
+    &gt;&gt;&gt; a
+    [4, 3, 1, 1, 4]
+    &gt;&gt;&gt; b
+    [1, 1, 3, 2, 2, 7]
+    &gt;&gt;&gt; c = [3, 3, 2, 4, 1]
+    &gt;&gt;&gt; trade(b, c)
+    'No deal!'
+    &gt;&gt;&gt; b
+    [1, 1, 3, 2, 2, 7]
+    &gt;&gt;&gt; c
+    [3, 3, 2, 4, 1]
+    &gt;&gt;&gt; trade(a, c)
+    'Deal!'
+    &gt;&gt;&gt; a
+    [3, 3, 2, 1, 4]
+    &gt;&gt;&gt; b
+    [1, 1, 3, 2, 2, 7]
+    &gt;&gt;&gt; c
+    [4, 3, 1, 4, 1]
+    """</span>
+    m, n = <span class="hljs-number">1</span>, <span class="hljs-number">1</span>
+
+<div class="sol-highlight">    equal_prefix = <span class="hljs-keyword">lambda</span>: sum(first[:m]) == sum(second[:n])</div><div class="sol-highlight">    <span class="hljs-keyword">while</span> m &lt; len(first) <span class="hljs-keyword">and</span> n &lt; len(second) <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> equal_prefix():</div><div class="sol-highlight">        <span class="hljs-keyword">if</span> sum(first[:m]) &lt; sum(second[:n]):</div>            m += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>:
+            n += <span class="hljs-number">1</span>
+
+    <span class="hljs-keyword">if</span> equal_prefix():
+        first[:m], second[:n] = second[:n], first[:m]
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'Deal!'</span>
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'No deal!'</span></code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q trade</code></pre>
+
+<h3 class="question" id="q4">Q4: Reverse</h3>
+
+<p>Write a function that reverses the given list. Be sure to mutate the original list.
+This is practice, so don't use the built-in <code>reverse</code> function!</p>
+
+<blockquote><p><strong>Hint:</strong> You may notice that this problem appears similar to Reverse in Lab 5.
+However, unlike the implementations in Lab5, this function should NOT return anything.
+This is to emphasize that this function should utilize mutability.</p></blockquote>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverse</span><span class="hljs-params">(lst)</span>:</span>
+    <span class="hljs-string">"""Reverses lst using mutation.
+
+    &gt;&gt;&gt; original_list = [5, -1, 29, 0]
+    &gt;&gt;&gt; reverse(original_list)
+    &gt;&gt;&gt; original_list
+    [0, 29, -1, 5]
+    &gt;&gt;&gt; odd_list = [42, 72, -8]
+    &gt;&gt;&gt; reverse(odd_list)
+    &gt;&gt;&gt; odd_list
+    [-8, 72, 42]
+    """</span>
+<div class="sol-highlight">    <span class="hljs-comment"># iterative solution</span>
+    midpoint = len(lst) // <span class="hljs-number">2</span>
+    last = len(lst) - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(midpoint):
+        lst[i], lst[last - i] = lst[last - i], lst[i]
+
+<span class="hljs-comment"># Recursive solution</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverse</span><span class="hljs-params">(lst)</span>:</span>
+    <span class="hljs-string">"""Reverses lst using mutation.
+
+    &gt;&gt;&gt; original_list = [5, -1, 29, 0]
+    &gt;&gt;&gt; reverse(original_list)
+    &gt;&gt;&gt; original_list
+    [0, 29, -1, 5]
+    &gt;&gt;&gt; odd_list = [42, 72, -8]
+    &gt;&gt;&gt; reverse(odd_list)
+    &gt;&gt;&gt; odd_list
+    [-8, 72, 42]
+    """</span>
+    <span class="hljs-keyword">if</span> len(lst) &gt; <span class="hljs-number">1</span>:
+        temp = lst.pop()
+        reverse(lst)
+        lst.insert(<span class="hljs-number">0</span>, temp)
+
+<span class="hljs-comment"># Alternative recursive solution</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverse</span><span class="hljs-params">(lst)</span>:</span>
+    <span class="hljs-string">"""Reverses lst using mutation.
+
+    &gt;&gt;&gt; original_list = [5, -1, 29, 0]
+    &gt;&gt;&gt; reverse(original_list)
+    &gt;&gt;&gt; original_list
+    [0, 29, -1, 5]
+    &gt;&gt;&gt; odd_list = [42, 72, -8]
+    &gt;&gt;&gt; reverse(odd_list)
+    &gt;&gt;&gt; odd_list
+    [-8, 72, 42]
+    """</span>
+    midpoint = len(lst) // <span class="hljs-number">2</span>
+    last = len(lst) - <span class="hljs-number">1</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">helper</span><span class="hljs-params">(i)</span>:</span>
+        <span class="hljs-keyword">if</span> i == midpoint:
+            <span class="hljs-keyword">return</span>
+        lst[i], lst[last - i] = lst[last - i], lst[i]
+        helper(i + <span class="hljs-number">1</span>)
+    helper(<span class="hljs-number">0</span>)</div></code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q reverse</code></pre>
+
+
+<h2 id="nonlocal">Nonlocal</h2>
+
+
+<h3 class="question" id="q5">Q5: Glookup</h3>
+
+<p>Now we will be making our own version of <code>glookup</code>, which keeps track of one's
+current grade out of the assignments completed so far (you can use this
+to keep track of your points throughout the rest of the semester!)</p>
+
+<p><code>glookup</code> takes in the following dictionary of assignment names mapped
+to their total point values:</p>
+
+<pre><code class="hljs python">cs61a = {
+    <span class="hljs-string">"Homework"</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-string">"Lab"</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-string">"Exam"</span>: <span class="hljs-number">50</span>,
+    <span class="hljs-string">"Final"</span>: <span class="hljs-number">80</span>,
+    <span class="hljs-string">"PJ1"</span>: <span class="hljs-number">20</span>,
+    <span class="hljs-string">"PJ2"</span>: <span class="hljs-number">15</span>,
+    <span class="hljs-string">"PJ3"</span>: <span class="hljs-number">25</span>,
+    <span class="hljs-string">"PJ4"</span>: <span class="hljs-number">30</span>,
+    <span class="hljs-string">"Extra credit"</span>: <span class="hljs-number">0</span>
+}</code></pre>
+
+<p><code>glookup</code> then returns a function which takes in an assignment keyword
+and the points earned on that particular assignment. It returns the
+current grade percentage out of what assignments have been entered so
+far.</p>
+
+<p>Make sure you read the doctests and understand them fully before you
+start writing code.</p>
+
+<solution>
+
+<pre><code class="hljs python">cs61a = {
+    <span class="hljs-string">"Homework"</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-string">"Lab"</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-string">"Exam"</span>: <span class="hljs-number">50</span>,
+    <span class="hljs-string">"Final"</span>: <span class="hljs-number">80</span>,
+    <span class="hljs-string">"PJ1"</span>: <span class="hljs-number">20</span>,
+    <span class="hljs-string">"PJ2"</span>: <span class="hljs-number">15</span>,
+    <span class="hljs-string">"PJ3"</span>: <span class="hljs-number">25</span>,
+    <span class="hljs-string">"PJ4"</span>: <span class="hljs-number">30</span>,
+    <span class="hljs-string">"Extra credit"</span>: <span class="hljs-number">0</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_glookup</span><span class="hljs-params">(class_assignments)</span>:</span>
+    <span class="hljs-string">""" Returns a function which calculates and returns the current
+    grade out of what assignments have been entered so far.
+
+    &gt;&gt;&gt; student1 = make_glookup(cs61a) # cs61a is the above dictionary
+    &gt;&gt;&gt; student1("Homework", 1.5)
+    0.75
+    &gt;&gt;&gt; student1("Lab", 1)
+    0.8333333333333334
+    &gt;&gt;&gt; student1("PJ1", 18)
+    0.8913043478260869
+    """</span>
+<div class="sol-highlight">    current_points = <span class="hljs-number">0</span>
+    current_total = <span class="hljs-number">0</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">glookup</span><span class="hljs-params">(key_word, points)</span>:</span>
+        <span class="hljs-keyword">nonlocal</span> current_points, current_total
+        current_total += class_assignments[key_word]
+        current_points += points
+        <span class="hljs-keyword">return</span> current_points / current_total
+    <span class="hljs-keyword">return</span> glookup</div></code></pre>
+
+</solution>
+
+<br>
+
+
+            <iframe width="560" height="315" src="./Lab 7 Solutions _ CS 61A Summer 2020_files/UQ4cRd3Y0mg.html" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<br>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q make_glookup</code></pre>
+
+
+<h2 id="submit">Submit</h2>
+
+
+<p>Make sure to submit this assignment by running:</p>
+
+<pre><code class="hljs sql">python3 ok <span class="hljs-comment">--submit</span></code></pre>
+
+
+<h1 id="suggested-questions">Suggested Questions</h1>
+
+
+
+<h2 id="recursion-tree-recursion">Recursion / Tree Recursion</h2>
+
+<h3 class="question" id="q6">Q6: Number of Trees</h3>
+
+<p>How many different possible full binary tree (each node has 2
+branches or 0, but never 1) structures exist that have exactly n
+leaves?</p>
+
+<p>For those interested in combinatorics, this problem does have a <a href="http://en.wikipedia.org/wiki/Catalan_number">closed
+form solution</a>):</p>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">num_trees</span><span class="hljs-params">(n)</span>:</span>
+    <span class="hljs-string">"""How many full binary trees have exactly n leaves? E.g.,
+
+    1   2        3       3    ...
+    *   *        *       *
+       / \      / \     / \
+      *   *    *   *   *   *
+              / \         / \
+             *   *       *   *
+
+    &gt;&gt;&gt; num_trees(1)
+    1
+    &gt;&gt;&gt; num_trees(2)
+    1
+    &gt;&gt;&gt; num_trees(3)
+    2
+    &gt;&gt;&gt; num_trees(8)
+    429
+
+    """</span>
+<div class="sol-highlight">    <span class="hljs-keyword">if</span> n == <span class="hljs-number">1</span>:</div><div class="sol-highlight">        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span></div><div class="sol-highlight">    <span class="hljs-keyword">return</span> sum(num_trees(k) * num_trees(n-k) <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, n))</div></code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q num_trees</code></pre>
+
+
+<h2 id="nonlocal">Nonlocal</h2>
+
+
+<h3 class="question" id="q7">Q7: Advanced Counter</h3>
+
+<p>Complete the definition of <code>make_advanced_counter_maker</code>,
+which creates a function that creates counters. These counters can not
+only update their personal count, but also a shared count for all
+counters.  They can also reset either count.</p>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_advanced_counter_maker</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-string">"""Makes a function that makes counters that understands the
+    messages "count", "global-count", "reset", and "global-reset".
+    See the examples below:
+
+    &gt;&gt;&gt; make_counter = make_advanced_counter_maker()
+    &gt;&gt;&gt; tom_counter = make_counter()
+    &gt;&gt;&gt; tom_counter('count')
+    1
+    &gt;&gt;&gt; tom_counter('count')
+    2
+    &gt;&gt;&gt; tom_counter('global-count')
+    1
+    &gt;&gt;&gt; jon_counter = make_counter()
+    &gt;&gt;&gt; jon_counter('global-count')
+    2
+    &gt;&gt;&gt; jon_counter('count')
+    1
+    &gt;&gt;&gt; jon_counter('reset')
+    &gt;&gt;&gt; jon_counter('count')
+    1
+    &gt;&gt;&gt; tom_counter('count')
+    3
+    &gt;&gt;&gt; jon_counter('global-count')
+    3
+    &gt;&gt;&gt; jon_counter('global-reset')
+    &gt;&gt;&gt; tom_counter('global-count')
+    1
+    """</span>
+<div class="sol-highlight">    global_count = <span class="hljs-number">0</span></div><div class="sol-highlight">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">make_counter</span><span class="hljs-params">()</span>:</span></div><div class="sol-highlight">        count = <span class="hljs-number">0</span></div><div class="sol-highlight">        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">counter</span><span class="hljs-params">(msg)</span>:</span></div><div class="sol-highlight">            <span class="hljs-keyword">nonlocal</span> global_count, count</div><div class="sol-highlight">            <span class="hljs-keyword">if</span> msg == <span class="hljs-string">'count'</span>:
+                count += <span class="hljs-number">1</span>
+                <span class="hljs-keyword">return</span> count
+            <span class="hljs-keyword">elif</span> msg == <span class="hljs-string">'reset'</span>:
+                count = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">elif</span> msg == <span class="hljs-string">'global-count'</span>:
+                global_count += <span class="hljs-number">1</span>
+                <span class="hljs-keyword">return</span> global_count
+            <span class="hljs-keyword">elif</span> msg == <span class="hljs-string">'global-reset'</span>:
+                global_count = <span class="hljs-number">0</span></div><div class="sol-highlight">        <span class="hljs-keyword">return</span> counter</div><div class="sol-highlight">    <span class="hljs-keyword">return</span> make_counter</div></code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q make_advanced_counter_maker</code></pre>
+
+  </div>
+
+  <div class="col-md-3 sticky">
+    <nav class="hidden-print hidden-sm hidden-xs sidebar">
+      <ul class="nav nav-stacked noselect">
+  <li><a href="https://cs61a.org/lab/sol-lab07/#required-questions">Required Questions</a></li>
+  <ul class="nav nav-stacked noselect">
+    <li><a href="https://cs61a.org/lab/sol-lab07/#recursion-and-tree-recursion">Recursion and Tree Recursion</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/sol-lab07/#q1">Q1: Subsequences</a></li>
+      <li><a href="https://cs61a.org/lab/sol-lab07/#q2">Q2: Increasing Subsequences</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/sol-lab07/#mutable-lists">Mutable Lists</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/sol-lab07/#q3">Q3: Trade</a></li>
+      <li><a href="https://cs61a.org/lab/sol-lab07/#q4">Q4: Reverse</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/sol-lab07/#nonlocal">Nonlocal</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/sol-lab07/#q5">Q5: Glookup</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/sol-lab07/#submit">Submit</a></li>
+  </ul>
+  <li><a href="https://cs61a.org/lab/sol-lab07/#suggested-questions">Suggested Questions</a></li>
+  <ul class="nav nav-stacked noselect">
+    <li><a href="https://cs61a.org/lab/sol-lab07/#recursion-tree-recursion">Recursion / Tree Recursion</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/sol-lab07/#q6">Q6: Number of Trees</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/sol-lab07/#nonlocal">Nonlocal</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/sol-lab07/#q7">Q7: Advanced Counter</a></li>
+    </ul>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/weekly.html">Weekly Schedule</a></li>
+            <li><a href="https://cs61a.org/office-hours.html">Office Hours</a></li>
+            <li><a href="https://cs61a.org/staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/articles/studying.html">Studying Guide</a></li>
+            <li><a href="https://cs61a.org/articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="https://cs61a.org/articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/articles/about.html#assignments">Assignments</a></li>
+            <li><a href="https://cs61a.org/articles/about.html#exams">Exams</a></li>
+            <li><a href="https://cs61a.org/articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+
+  function goToId(id) {
+    var target = $(id);
+    console.log(target);
+    target.parent().show();
+    $('html,body').animate({
+      scrollTop: target.offset().top,
+    }, 100);
+    $("body").scrollspy('refresh');
+  }
+
+  if (location.hash) {
+    setTimeout(function() {
+      // window.scrollTo(0, 0);
+      if (location.hash) {
+        goToId(location.hash);
+      }
+    }, 1);
+  }
+
+  $("a").click(function(event) {
+    var urlBeforeHashRegEx = new RegExp("^"+window.location.href.split("#")[0]);
+    if (/^#/.test(this.hash) && urlBeforeHashRegEx.test(this.href)) {
+      event.preventDefault();
+      goToId(this.hash);
+      document.location.hash = this.hash;
+    }
+  });
+</script>
+
+  
+</body></html>

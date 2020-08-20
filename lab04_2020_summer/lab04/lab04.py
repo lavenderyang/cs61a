@@ -11,7 +11,12 @@ def reverse_iter(lst):
     >>> print("Do not use lst[::-1], lst.reverse(), or reversed(lst)!") if any([r in cleaned for r in ["[::", ".reverse", "reversed"]]) else None
     """
     "*** YOUR CODE HERE ***"
-
+    new_lst = []
+    count = 0
+    while count < len(lst):
+        new_lst = [lst[count]] + new_lst
+        count += 1
+    return new_lst
 
 def reverse_recursive(lst):
     """Returns the reverse of the given list.
@@ -23,6 +28,13 @@ def reverse_recursive(lst):
     >>> print("Do not use lst[::-1], lst.reverse(), or reversed(lst)!") if any([r in cleaned for r in ["[::", ".reverse", "reversed"]]) else None
     """
     "*** YOUR CODE HERE ***"
+    def start_reverse(lst, new):
+        if not lst:
+            return new
+        else: 
+            return start_reverse(lst[1:], [lst[0]] + new)
+    return start_reverse(lst, [])
+
 
 
 from math import sqrt
@@ -38,6 +50,7 @@ def distance(city_a, city_b):
     5.0
     """
     "*** YOUR CODE HERE ***"
+    return sqrt((get_lat(city_a) - get_lat(city_b))**2 + (get_lon(city_a) - get_lon(city_b))**2)
 
 def closer_city(lat, lon, city_a, city_b):
     """
@@ -54,6 +67,11 @@ def closer_city(lat, lon, city_a, city_b):
     'Bucharest'
     """
     "*** YOUR CODE HERE ***"
+    new_city = make_city('New', lat, lon)
+    if distance(new_city, city_a) < distance(new_city, city_b): 
+        return get_name(city_a)
+    else: 
+        return get_name(city_b)
 
 def check_abstraction():
     """
@@ -162,4 +180,15 @@ def add_chars(w1, w2):
     True
     """
     "*** YOUR CODE HERE ***"
+    def chars_helper(w1, w2, add): 
+        if not w1: 
+            return add + w2
+        elif w1[0] == w2[0]:
+            return chars_helper(w1[1:], w2[1:], add)
+        else:
+            return chars_helper(w1, w2[1:], add + w2[0])
+    return chars_helper(w1, w2, "")
+
+    
+
 

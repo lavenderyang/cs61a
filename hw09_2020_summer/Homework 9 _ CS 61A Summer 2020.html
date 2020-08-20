@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<!-- saved from url=(0026)https://cs61a.org/hw/hw09/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="CS 61A: Structure and Interpretation of Computer Programs">
+    <meta name="keywords" content="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS">
+    <meta name="author" content="Chae Park, Kavi Gupta, Ryan Moughan">
+    
+    <meta name="viewport" content="width=device-width">
+
+    <script src="./Homework 9 _ CS 61A Summer 2020_files/jquery.min.js.download"></script>
+    <script src="./Homework 9 _ CS 61A Summer 2020_files/bootstrap.min.js.download"></script>
+    <script src="./Homework 9 _ CS 61A Summer 2020_files/hl.js.download"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="./Homework 9 _ CS 61A Summer 2020_files/dark-mode.js.download"></script>
+    <link rel="stylesheet" href="./Homework 9 _ CS 61A Summer 2020_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./Homework 9 _ CS 61A Summer 2020_files/css">
+    <link rel="stylesheet" href="./Homework 9 _ CS 61A Summer 2020_files/style.css">
+    <link rel="stylesheet" href="./Homework 9 _ CS 61A Summer 2020_files/mono-blue.css">
+    <link rel="icon" href="https://cs61a.org/assets/images/favicon.ico">
+
+    
+
+<link rel="stylesheet" type="text/css" href="./Homework 9 _ CS 61A Summer 2020_files/hw.css">
+
+
+    <title>
+Homework 9 | CS 61A Summer 2020
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://cs61a.org/">
+            <img style="max-width:60px; margin-top: -20px;" class="logo" src="./Homework 9 _ CS 61A Summer 2020_files/logo.png">
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://cs61a.org/weekly.html">Weekly Schedule</a></li>
+            <li><a href="https://cs61a.org/office-hours.html">Office Hours</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="https://cs61a.org/hw/hw09/#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Staff
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="https://cs61a.org/instructor.html">Instructors</a></li>
+                <li><a href="https://cs61a.org/TAs.html">TAs</a></li>
+                <li><a href="https://cs61a.org/tutors.html">Tutors</a></li>
+                <!-- <li><a href="/academic-interns.html">Academic Interns</a></li> -->
+              </ul>
+            </li>
+            <li><a href="https://cs61a.org/resources.html">Resources</a></li>
+            <li><a href="https://cs61a.org/articles/about.html">Syllabus</a></li>
+            <li><a href="https://piazza.com/berkeley/summer2020/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="https://denero.org/feedback.html" target="_blank">Feedback</a></li>
+            <li><a href="https://edge.edx.org/courses/course-v1:BerkeleyX+CSW61A+2020_SP">EdX</a></li>
+            <!-- <li><a href="https://scheme.cs61a.org">Scheme</a></li> -->
+            <!-- <li><a href="https://sql.cs61a.org">SQL</a></li> -->
+            <li><a href="https://code.cs61a.org/">Code</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class="row">
+  <div class="col-md-9">
+    <header>
+      <h1>
+        
+Homework 9: Final Review
+
+        
+        
+        <ul class="inline-block list-inline">
+          <li><a href="https://cs61a.org/hw/hw09/hw09.zip" class="label label-outline">hw09.zip</a></li>
+        </ul>
+        
+        
+      </h1>
+    </header>
+    
+
+<p><em>Due by 11:59pm on Friday, August 14</em></p>
+
+
+
+
+
+<h2>Instructions</h2>
+
+<p>Download <a href="https://cs61a.org/hw/hw09/hw09.zip">hw09.zip</a>.</p>
+
+<p><strong>Submission:</strong> When you are done, submit with <code>python3 ok
+  --submit</code>.  You may submit more than once before the deadline; only the
+final submission will be scored. Check that you have successfully submitted
+your code on <a href="https://okpy.org/">okpy.org</a>.  See <a href="https://cs61a.org/lab/lab00#submitting-the-assignment">Lab 0</a> for more instructions on
+submitting assignments.</p>
+
+<p><strong>Using Ok:</strong> If you have any questions about using Ok, please
+refer to <a href="https://cs61a.org/articles/using-ok.html">this guide.</a>
+
+
+
+</p><p><strong>Grading:</strong> Homework is graded based on
+correctness. Each incorrect problem will decrease the total score by one point. There is a homework recovery policy as stated in the syllabus.
+<strong>This homework is out of 3 points.</strong>
+
+
+
+
+    
+</p><h1 id="questions">Questions</h1>
+
+
+
+<h2 id="trees">Trees</h2>
+
+
+<h3 class="question" id="q1">Q1: In-order traversal</h3>
+
+<p>Write a function that returns a generator that generates an "in-order" traversal, in which we
+yield the value of every node in order from left to right, assuming that each node has either 0 or 2 branches.</p>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">in_order_traversal</span><span class="hljs-params">(t)</span>:</span>
+    <span class="hljs-string">"""
+    Generator function that generates an "in-order" traversal, in which we
+    yield the value of every node in order from left to right, assuming that each node has either 0 or 2 branches.
+
+    For example, take the following tree t:
+            1
+        2       3
+    4     5
+         6  7
+
+    We have the in-order-traversal 4, 2, 6, 5, 7, 1, 3
+
+    &gt;&gt;&gt; t = Tree(1, [Tree(2, [Tree(4), Tree(5, [Tree(6), Tree(7)])]), Tree(3)])
+    &gt;&gt;&gt; list(in_order_traversal(t))
+    [4, 2, 6, 5, 7, 1, 3]
+    """</span>
+    <span class="hljs-string">"*** YOUR CODE HERE ***"</span>
+</code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q in_order_traversal</code></pre>
+
+
+<h2 id="scheme">Scheme</h2>
+
+
+<h3 class="question" id="q2">Q2: Reverse</h3>
+
+<p>Write the procedure <code>reverse</code>, which takes in a list <code>lst</code> and outputs a reversed list. Hint: you may find the built-in function <code>append</code> useful (<a href="https://cs61a.org/articles/scheme-builtins.html#append">documentation</a>).</p>
+
+<solution>
+
+<pre><code class="scheme hljs">(<span class="hljs-name"><span class="hljs-keyword">define</span></span> (<span class="hljs-name">reverse</span> lst)
+    <span class="hljs-symbol">'YOUR-CODE-HERE</span>
+)</code></pre>
+
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q reverse-simple</code></pre>
+
+
+<h2 id="recursion">Recursion</h2>
+
+
+<h3 class="question" id="q3">Q3: Interleaved Sum</h3>
+
+<p>Recall that the <code>summation</code> function computes the sum of a sequence of
+terms from 1 to <code>n</code>:</p>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">summation</span><span class="hljs-params">(n, term)</span>:</span>
+    <span class="hljs-string">"""Return the sum of the first n terms of a sequence.
+
+    &gt;&gt;&gt; summation(5, lambda x: pow(x, 3))
+    225
+    """</span>
+    total, k = <span class="hljs-number">0</span>, <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> k &lt;= n:
+        total, k = total + term(k), k + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> total</code></pre>
+
+<p>Write a function <code>interleaved_sum</code> that similarly computes the sum of a
+sequence of terms from 1 to <code>n</code>, but uses different functions to compute
+the terms for odd and even numbers. Do so without using any loops or
+testing in any way if a number is odd or even.</p>
+
+<blockquote><p><em>Note</em>:  no-loops rule is just to make sure you get practice writing recursive
+solutions, but in future you may have to combine both recursion and loops to
+solve problems.</p>
+
+<p><em>Hint</em>: You can test if a number is equal to 0, 1, or <code>n</code>. If you start
+summing from the term 1, you'll be able to tell whether the current term is
+odd or even. How can you keep track of an extra variable for the current term
+in a recursive function?</p></blockquote>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">interleaved_sum</span><span class="hljs-params">(n, odd_term, even_term)</span>:</span>
+    <span class="hljs-string">"""Compute the sum odd_term(1) + even_term(2) + odd_term(3) + ..., up
+    to n.
+
+    &gt;&gt;&gt; # 1 + 2^2 + 3 + 4^2 + 5
+    ... interleaved_sum(5, lambda x: x, lambda x: x*x)
+    29
+    &gt;&gt;&gt; from construct_check import check
+    &gt;&gt;&gt; check(SOURCE_FILE, 'interleaved_sum', ['While', 'For', 'Mod']) # ban loops and %
+    True
+    """</span>
+    <span class="hljs-string">"*** YOUR CODE HERE ***"</span>
+</code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q interleaved_sum</code></pre>
+
+
+<h2 id="linked-lists">Linked Lists</h2>
+
+
+<h3 class="question" id="q4">Q4: Mutate Reverse</h3>
+
+<p>Implement <code>mutate_reverse</code>, which takes a linked list instance and mutates it
+so that its values appear in reverse order. For an extra challenge, find an
+implementation that requires only linear time in the length of the list
+(big-Theta n).</p>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mutate_reverse</span><span class="hljs-params">(link)</span>:</span>
+    <span class="hljs-string">"""Mutates the Link so that its elements are reversed.
+
+    &gt;&gt;&gt; link = Link(1)
+    &gt;&gt;&gt; mutate_reverse(link)
+    &gt;&gt;&gt; link
+    Link(1)
+
+    &gt;&gt;&gt; link = Link(1, Link(2, Link(3)))
+    &gt;&gt;&gt; mutate_reverse(link)
+    &gt;&gt;&gt; link
+    Link(3, Link(2, Link(1)))
+    """</span>
+    <span class="hljs-string">"*** YOUR CODE HERE ***"</span>
+</code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q mutate_reverse</code></pre>
+
+
+<h2 id="submit">Submit</h2>
+
+
+<p>Make sure to submit this assignment by running:</p>
+
+<pre><code class="hljs sql">python3 ok <span class="hljs-comment">--submit</span></code></pre>
+
+<script>
+    $('.alwaystoggle').css('display', 'inline-block');
+    $('.alwaystoggle').click(function() {
+      var solution_id = $(this).attr('id');
+      $('div.' + solution_id).slideToggle(600);
+    });
+</script>
+
+
+  </div>
+
+  <div class="col-md-3 sticky">
+    <nav class="hidden-print hidden-sm hidden-xs sidebar">
+      <ul class="nav nav-stacked noselect">
+  <li><a href="https://cs61a.org/hw/hw09/#questions">Questions</a></li>
+  <ul class="nav nav-stacked noselect">
+    <li><a href="https://cs61a.org/hw/hw09/#trees">Trees</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/hw/hw09/#q1">Q1: In-order traversal</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/hw/hw09/#scheme">Scheme</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/hw/hw09/#q2">Q2: Reverse</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/hw/hw09/#recursion">Recursion</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/hw/hw09/#q3">Q3: Interleaved Sum</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/hw/hw09/#linked-lists">Linked Lists</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/hw/hw09/#q4">Q4: Mutate Reverse</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/hw/hw09/#submit">Submit</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/weekly.html">Weekly Schedule</a></li>
+            <li><a href="https://cs61a.org/office-hours.html">Office Hours</a></li>
+            <li><a href="https://cs61a.org/staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/articles/studying.html">Studying Guide</a></li>
+            <li><a href="https://cs61a.org/articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="https://cs61a.org/articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/articles/about.html#assignments">Assignments</a></li>
+            <li><a href="https://cs61a.org/articles/about.html#exams">Exams</a></li>
+            <li><a href="https://cs61a.org/articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+
+  function goToId(id) {
+    var target = $(id);
+    console.log(target);
+    target.parent().show();
+    $('html,body').animate({
+      scrollTop: target.offset().top,
+    }, 100);
+    $("body").scrollspy('refresh');
+  }
+
+  if (location.hash) {
+    setTimeout(function() {
+      // window.scrollTo(0, 0);
+      if (location.hash) {
+        goToId(location.hash);
+      }
+    }, 1);
+  }
+
+  $("a").click(function(event) {
+    var urlBeforeHashRegEx = new RegExp("^"+window.location.href.split("#")[0]);
+    if (/^#/.test(this.hash) && urlBeforeHashRegEx.test(this.href)) {
+      event.preventDefault();
+      goToId(this.hash);
+      document.location.hash = this.hash;
+    }
+  });
+</script>
+
+  
+</body></html>

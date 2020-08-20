@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)https://cs61a.org/lab/lab12/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="CS 61A: Structure and Interpretation of Computer Programs">
+    <meta name="keywords" content="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS">
+    <meta name="author" content="Chae Park, Kavi Gupta, Ryan Moughan">
+    
+    <meta name="viewport" content="width=device-width">
+
+    <script src="./Lab 12_ Macros, Streams _ CS 61A Summer 2020_files/jquery.min.js.download"></script>
+    <script src="./Lab 12_ Macros, Streams _ CS 61A Summer 2020_files/bootstrap.min.js.download"></script>
+    <script src="./Lab 12_ Macros, Streams _ CS 61A Summer 2020_files/hl.js.download"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="./Lab 12_ Macros, Streams _ CS 61A Summer 2020_files/dark-mode.js.download"></script>
+    <link rel="stylesheet" href="./Lab 12_ Macros, Streams _ CS 61A Summer 2020_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./Lab 12_ Macros, Streams _ CS 61A Summer 2020_files/css">
+    <link rel="stylesheet" href="./Lab 12_ Macros, Streams _ CS 61A Summer 2020_files/style.css">
+    <link rel="stylesheet" href="./Lab 12_ Macros, Streams _ CS 61A Summer 2020_files/mono-blue.css">
+    <link rel="icon" href="https://cs61a.org/assets/images/favicon.ico">
+
+    
+
+    <title>
+Lab 12: Macros, Streams | CS 61A Summer 2020
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://cs61a.org/">
+            <img style="max-width:60px; margin-top: -20px;" class="logo" src="./Lab 12_ Macros, Streams _ CS 61A Summer 2020_files/logo.png">
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://cs61a.org/weekly.html">Weekly Schedule</a></li>
+            <li><a href="https://cs61a.org/office-hours.html">Office Hours</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="https://cs61a.org/lab/lab12/#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Staff
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="https://cs61a.org/instructor.html">Instructors</a></li>
+                <li><a href="https://cs61a.org/TAs.html">TAs</a></li>
+                <li><a href="https://cs61a.org/tutors.html">Tutors</a></li>
+                <!-- <li><a href="/academic-interns.html">Academic Interns</a></li> -->
+              </ul>
+            </li>
+            <li><a href="https://cs61a.org/resources.html">Resources</a></li>
+            <li><a href="https://cs61a.org/articles/about.html">Syllabus</a></li>
+            <li><a href="https://piazza.com/berkeley/summer2020/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="https://denero.org/feedback.html" target="_blank">Feedback</a></li>
+            <li><a href="https://edge.edx.org/courses/course-v1:BerkeleyX+CSW61A+2020_SP">EdX</a></li>
+            <!-- <li><a href="https://scheme.cs61a.org">Scheme</a></li> -->
+            <!-- <li><a href="https://sql.cs61a.org">SQL</a></li> -->
+            <li><a href="https://code.cs61a.org/">Code</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class="row">
+  <div class="col-md-9">
+    <header>
+      <h1>
+        
+Lab 12: Macros, Streams
+
+        
+        
+        <ul class="inline-block list-inline">
+          <li><a href="https://cs61a.org/lab/lab12/lab12.zip" class="label label-outline">lab12.zip</a></li>
+        </ul>
+        
+        
+      </h1>
+    </header>
+    
+
+<p><i>Due by 11:59pm on Wednesday, August 5.</i></p>
+
+
+
+
+<h2 id="starter-files">Starter Files</h2>
+
+<p>Download <a href="https://cs61a.org/lab/lab12/lab12.zip">lab12.zip</a>.
+Inside the archive, you will find starter files for the questions in this lab,
+  along with a copy of the <a href="https://cs61a.org/lab/lab12/ok">Ok</a> autograder.</p>
+
+
+<h2 id="submission">Submission</h2>
+
+<p>By the end of this lab, you should have submitted the lab with
+<code>python3 ok --submit</code>. You may submit more than once before the
+deadline; only the final submission will be graded.
+Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.</p>
+
+
+
+
+
+    
+<h1 id="topics">Topics</h1>
+
+
+<p>Consult this section if you need a refresher on the material for this lab. It's
+okay to skip directly to <a href="https://cs61a.org/lab/lab12/#required-questions">the questions</a> and refer back
+here should you get stuck.</p>
+
+
+        <button id="toggle-1" class="btn btn-outline btn-lg alwaystoggle toggle" style="display: inline-block;">
+        Macros<noscript> (enable JavaScript)</noscript>
+        </button>
+        <div class="solution toggle-1">
+<!-- This is a copy of <code>disc/topics/macros/text/introduction.tex</code> but adapted for web -->
+
+<p>So far we've been able to define our own procedures in Scheme using the
+<code>define</code> special form. When we call these procedures, we have to follow
+the rules for evaluating call expressions, which involve evaluating all the
+operands.</p>
+
+<p>We know that special form expressions do not follow the evaluation rules of
+call expressions. Instead, each special form has its own rules of evaluation,
+which may include not evaluating all the operands.  Wouldn't it be cool if we
+could define our own special forms where we decide which operands are
+evaluated?  Consider the following example where we attempt to write a function
+that evaluates a given expression twice:</p>
+
+<pre><code class="scheme hljs">scm&gt; (<span class="hljs-name"><span class="hljs-keyword">define</span></span> (<span class="hljs-name">twice</span> f) (<span class="hljs-name"><span class="hljs-keyword">begin</span></span> f f))
+twice
+scm&gt; (<span class="hljs-name">twice</span> (<span class="hljs-name">print</span> <span class="hljs-symbol">'woof</span>))
+woof</code></pre>
+
+
+
+<p>Since <code>twice</code> is a regular procedure, a call to <code>twice</code> will
+follow the same rules of evaluation as regular call expressions; first we
+evaluate the operator and then we evaluate the operands.  That means that
+<code>woof</code> was printed when we evaluated the operand <code>(print 'woof)</code>.
+Inside the body of <code>twice</code>, the name <code>f</code> is bound to the value
+<code>undefined</code>, so the expression <code>(begin f f)</code> does nothing at all!</p>
+
+<p>The problem here is clear: we need to prevent the given expression from
+evaluating until we're inside the body of the procedure. This is where the
+<code>define-macro</code> special form, which has identical syntax to the regular
+<code>define</code> form, comes in:</p>
+
+<pre><code class="scheme hljs">scm&gt; (<span class="hljs-name"><span class="hljs-keyword">define-macro</span></span> (<span class="hljs-name">twice</span> f) (<span class="hljs-name">list</span> <span class="hljs-symbol">'begin</span> f f))
+twice</code></pre>
+
+
+
+<p><code>define-macro</code> allows us to define what's known as a <code>macro</code>,
+which is simply a way for us to combine unevaluated input expressions together
+into another expression. When we call macros, the operands are not evaluated,
+but rather are treated as Scheme data. This means that any operands that are
+call expressions or special form expression are treated like lists.</p>
+
+<p>If we call <code>(twice (print 'woof))</code>, <code>f</code> will actually be bound to
+the list <code>(print 'woof)</code> instead of the value <code>undefined</code>.
+Inside the body of <code>define-macro</code>, we can insert these expressions into
+a larger Scheme expression. In our case, we would want a <code>begin</code>
+expression that looks like the following:</p>
+
+<pre><code class="hljs scheme">(<span class="hljs-name"><span class="hljs-keyword">begin</span></span> (<span class="hljs-name">print</span> <span class="hljs-symbol">'woof</span>) (<span class="hljs-name">print</span> <span class="hljs-symbol">'woof</span>))</code></pre>
+
+<p>As Scheme data, this expression is really just a list containing three
+elements: <code>begin</code> and <code>(print 'woof)</code> twice, which is exactly
+what <code>(list 'begin f f)</code> returns.  Now, when we call <code>twice</code>,
+this list is evaluated as an expression and <code>(print 'woof)</code> is evaluated
+twice.</p>
+
+<pre><code class="scheme hljs">scm&gt; (<span class="hljs-name">twice</span> (<span class="hljs-name">print</span> <span class="hljs-symbol">'woof</span>))
+woof
+woof</code></pre>
+
+
+
+<p>To recap, macros are called similarly to regular procedures, but the rules for
+evaluating them are different. We evaluated lambda procedures in the following
+way:</p>
+
+<ul>
+  <li>Evaluate operator</li>
+  <li>Evaluate operands</li>
+  <li>Apply operator to operands, evaluating the body of the procedure</li>
+</ul>
+
+<p>However, the rules for evaluating calls to macro procedures are:</p>
+
+<ul>
+  <li>Evaluate operator</li>
+  <li>Apply operator to unevaluated operands</li>
+  <li>Evaluate the expression returned by the macro in the frame it was called in.
+  </li></ul></div>
+
+
+
+        <button id="toggle-2" class="btn btn-outline btn-lg alwaystoggle toggle" style="display: inline-block;">
+        Quasiquotes<noscript> (enable JavaScript)</noscript>
+        </button>
+        <div class="solution toggle-2">
+
+<p>Recall that the <code>quote</code> special form prevents the Scheme interpreter
+from executing a following expression. We saw that this helps us create complex
+lists more easily than repeatedly calling <code>cons</code> or trying to get the
+structure right with <code>list</code>. It seems like this form would come in handy
+if we are trying to construct complex Scheme expressions with many nested
+lists.</p>
+
+<p>Consider that we rewrite the <code>twice</code> macro as follows:</p>
+
+<pre><code class="hljs scheme">(<span class="hljs-name"><span class="hljs-keyword">define-macro</span></span> (<span class="hljs-name">twice</span> f)
+  '(begin f f))</code></pre>
+
+<p>This seems like it would have the same effect, but since the <code>quote</code>
+form prevents any evaluation, the resulting expression we create would actually
+be <code>(begin f f)</code>, which is not what we want.</p>
+
+<p>The <strong>quasiquote</strong> allows us to construct literal lists in a similar way
+as quote, but also lets us specify if any sub-expression within the list should be
+evaluated.</p>
+
+<p>At first glance, the quasiquote (which can be invoked with the backtick <code>`</code> or
+the <code>quasiquote</code> special form) behaves exactly the same as <code>'</code> or
+<code>quote</code>.  However, using quasiquotes gives you the ability to
+<strong>unquote</strong> (which can be invoked with the comma <code>,</code> or the
+<code>unquote</code> special form). This removes an expression from the quoted
+context, evaluates it, and places it back in.</p>
+
+<p>By combining quasiquotes and unquoting, we can often save ourselves a lot
+of trouble when building macro expressions.</p>
+
+<p>Here is how we could use quasiquoting to rewrite our previous example:</p>
+
+<pre><code class="hljs scheme">(<span class="hljs-name"><span class="hljs-keyword">define-macro</span></span> (<span class="hljs-name">twice</span> f)
+  `(<span class="hljs-name"><span class="hljs-keyword">begin</span></span> ,f ,f))</code></pre>
+
+<blockquote><p>Important Note: quasiquoting isn't necessarily related to macros, in
+fact it can be used in any situation where you want to build lists
+non-recursively and you know the structure ahead of time. For example,
+instead of writing <code>(list x y z)</code> you can write <code>`(,x ,y ,z)</code> for
+100% equivalent behavior
+</p></blockquote></div><p></p>
+
+
+        <button id="toggle-3" class="btn btn-outline btn-lg alwaystoggle toggle" style="display: inline-block;">
+        Streams<noscript> (enable JavaScript)</noscript>
+        </button>
+        <div class="solution toggle-3">
+A stream is an example of a lazy sequence. Specifically, it is a lazily
+evaluated Scheme list. In other words, the stream's elements (except for the
+first element) are only evaluated when the values are needed.  In addition,
+streams are <em>memoized</em>: the elements that have already been computed are saved!
+
+<p>Because a stream is simply a lazy list, the rest of a stream is also a stream
+(just like the rest of a list is also a list). In addition, <code>nil</code> can also
+serve as an empty stream. To check if a stream is empty, we can use the
+built-in procedure <code>null?</code>.</p>
+
+<p>The procedures involved for working with streams are as follows:</p>
+
+<ul>
+  <li><code>(cons-stream first rest)</code>: A special form that constructs a stream by
+  evaluating the first operand <code>first</code> and storing its value as the first
+  element in the stream, and storing the second operand <code>rest</code>, unevaluated, to
+  be evaluated later.</li>
+  <li><code>(car s)</code>: A procedure that works on streams the same way it does on lists. It
+  returns the first element of the stream, which had already been computed on
+  construction of the stream.</li>
+  <li><code>(cdr-stream s)</code>: A procedure that returns the rest of the stream by evaluating
+  the <code>rest</code> expression that was stored on construction of the stream. It then
+  stores the value of this expression so that on subsequent calls to <code>cdr-stream</code>
+  on this stream, <code>rest</code> no longer has to be evaluated.</li>
+</ul>
+
+<p>Now we are ready to look at a simple example. This stream is an
+infinite stream where each element is 1.</p>
+
+<pre><code class="scheme hljs">scm&gt; (<span class="hljs-name"><span class="hljs-keyword">define</span></span> ones (<span class="hljs-name"><span class="hljs-keyword">cons-stream</span></span> <span class="hljs-number">1</span> ones))
+ones
+scm&gt; (<span class="hljs-name">car</span> ones)
+<span class="hljs-number">1</span>
+scm&gt; (<span class="hljs-name">cdr-stream</span> ones)
+(<span class="hljs-name">1</span> . #[<span class="hljs-name">promise</span> (<span class="hljs-name">forced</span>)])</code></pre>
+
+
+
+<p>The reason we are able to recursively reference this object without causing an
+error is because the second operand to <code>cons-stream</code> is not evaluated. Instead,
+it is stored until <code>cdr-stream</code> is called, at which point the expression will
+be evaluated and the resulting value will be stored.</p>
+
+<p>Next, here's one way to build a stream of the natural numbers starting at <code>n</code>.</p>
+
+<pre><code class="scheme hljs">scm&gt; (<span class="hljs-name"><span class="hljs-keyword">define</span></span> (<span class="hljs-name">naturals</span> (<span class="hljs-name">n</span>))
+       (<span class="hljs-name"><span class="hljs-keyword">cons-stream</span></span> n (<span class="hljs-name">naturals</span> (<span class="hljs-name">+</span> n <span class="hljs-number">1</span>))))
+naturals
+scm&gt; (<span class="hljs-name"><span class="hljs-keyword">define</span></span> nat (<span class="hljs-name">naturals</span> <span class="hljs-number">0</span>))
+nat
+scm&gt; (<span class="hljs-name">car</span> nat)
+<span class="hljs-number">0</span>
+scm&gt; (<span class="hljs-name">car</span> (<span class="hljs-name">cdr-stream</span> nat))
+<span class="hljs-number">1</span>
+scm&gt; (<span class="hljs-name">car</span> (<span class="hljs-name">cdr-stream</span> (<span class="hljs-name">cdr-stream</span> nat)))
+<span class="hljs-number">2</span></code></pre>
+
+
+
+<p>Here, the expression that is stored is a recursive call to <code>naturals</code>. When we
+evaluate this call, we get another stream whose first element is one greater
+than the previous number in the sequence. The second element of this stream is
+uncomputed until <code>cdr-stream</code> is called on it, which will activate yet another
+call to <code>naturals</code>.  Hence, we effectively get an infinite stream of integers,
+where each integer is computed one at a time. This is almost like infinite
+recursion, but one which can be viewed one step at a time, so it does not
+crash.
+</p></div><p></p>
+
+
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="what-would-scheme-display">What Would Scheme Display?</h2>
+
+
+<h3 class="question" id="q1">Q1: WWSD: Macros</h3>
+
+<p>One thing to keep in mind when doing this question, builtins get rendered as such:</p>
+
+<pre><code class="scheme hljs">scm&gt; +
+#[<span class="hljs-name">+</span>]
+scm&gt; list
+#[<span class="hljs-name">list</span>]</code></pre>
+
+
+
+<blockquote><p>If evaluating an expression causes an error, type <code>SchemeError</code>. If nothing is
+displayed, type <code>Nothing</code>.</p>
+
+<p>Use Ok to test your knowledge with the following "What Would Scheme Display?"
+questions:</p>
+
+<pre><code class="hljs">python3 ok -q wwsd-macros -u</code></pre></blockquote>
+
+
+
+<pre><code class="hljs python">scm&gt; +
+<div class="alt prompt-1">______</div><div class="solution prompt-1"><span class="hljs-comment">#[+]</span></div>
+scm&gt; list
+<div class="alt prompt-1">______</div><div class="solution prompt-1"><span class="hljs-comment">#[list]</span></div>
+scm&gt; (define-macro (f x) (car x))
+<div class="alt prompt-1">______</div><div class="solution prompt-1">f</div>
+scm&gt; (f (<span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">4</span>)) ; type SchemeError <span class="hljs-keyword">for</span> error, <span class="hljs-keyword">or</span> Nothing <span class="hljs-keyword">for</span> nothing
+<div class="alt prompt-1">______</div><div class="solution prompt-1">2</div>
+scm&gt; (f (+ <span class="hljs-number">2</span> <span class="hljs-number">3</span>))
+<div class="alt prompt-1">______</div><div class="solution prompt-1"><span class="hljs-comment">#[+]</span></div>
+scm&gt; (define x <span class="hljs-number">2000</span>)
+<div class="alt prompt-1">______</div><div class="solution prompt-1">x</div>
+scm&gt; (f (x y z))
+<div class="alt prompt-1">______</div><div class="solution prompt-1">2000</div>
+scm&gt; (f (list <span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">4</span>))
+<div class="alt prompt-1">______</div><div class="solution prompt-1"><span class="hljs-comment">#[list]</span></div>
+scm&gt; (f (quote (<span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">4</span>)))
+<div class="alt prompt-1">______</div><div class="solution prompt-1">SchemeError</div>
+scm&gt; (define quote <span class="hljs-number">7000</span>)
+<div class="alt prompt-1">______</div><div class="solution prompt-1">quote</div>
+scm&gt; (f (quote (<span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">4</span>)))
+<div class="alt prompt-1">______</div><div class="solution prompt-1">7000</div></code></pre>
+        <button id="prompt-1" class="btn btn-outline btn-lg solutiontoggle prompt">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code class="hljs">scm&gt; (define-macro (g x) (+ x 2))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">g</div>
+scm&gt; (g 2)
+<div class="alt prompt-2">______</div><div class="solution prompt-2">4</div>
+scm&gt; (g (+ 2 3))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">SchemeError</div>
+scm&gt; (define-macro (h x) (list '+ x 2))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">h</div>
+scm&gt; (h (+ 2 3))
+<div class="alt prompt-2">______</div><div class="solution prompt-2">7</div></code></pre>
+        <button id="prompt-2" class="btn btn-outline btn-lg solutiontoggle prompt">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+<pre><code class="hljs python">scm&gt; (define-macro (<span class="hljs-keyword">if</span>-<span class="hljs-keyword">else</span><span class="hljs-number">-5</span> condition consequent) `(<span class="hljs-keyword">if</span> ,condition ,consequent <span class="hljs-number">5</span>))
+<div class="alt prompt-3">______</div><div class="solution prompt-3">if-<span class="hljs-keyword">else</span><span class="hljs-number">-5</span></div>
+scm&gt; (<span class="hljs-keyword">if</span>-<span class="hljs-keyword">else</span><span class="hljs-number">-5</span> <span class="hljs-comment">#t 2)</span>
+<div class="alt prompt-3">______</div><div class="solution prompt-3">2</div>
+scm&gt; (<span class="hljs-keyword">if</span>-<span class="hljs-keyword">else</span><span class="hljs-number">-5</span> <span class="hljs-comment">#f 3)</span>
+<div class="alt prompt-3">______</div><div class="solution prompt-3">5</div>
+scm&gt; (<span class="hljs-keyword">if</span>-<span class="hljs-keyword">else</span><span class="hljs-number">-5</span> <span class="hljs-comment">#t (/ 1 0))</span>
+<div class="alt prompt-3">______</div><div class="solution prompt-3">SchemeError</div>
+scm&gt; (<span class="hljs-keyword">if</span>-<span class="hljs-keyword">else</span><span class="hljs-number">-5</span> <span class="hljs-comment">#f (/ 1 0))</span>
+<div class="alt prompt-3">______</div><div class="solution prompt-3">5</div>
+scm&gt; (<span class="hljs-keyword">if</span>-<span class="hljs-keyword">else</span><span class="hljs-number">-5</span> (= <span class="hljs-number">1</span> <span class="hljs-number">1</span>) <span class="hljs-number">2</span>)
+<div class="alt prompt-3">______</div><div class="solution prompt-3">2</div></code></pre>
+        <button id="prompt-3" class="btn btn-outline btn-lg solutiontoggle prompt">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+<h3 class="question" id="q2">Q2: WWSD: Quasiquote</h3>
+
+<blockquote><p>Use Ok to test your knowledge with the following "What Would Scheme Display?"
+questions:</p>
+
+<pre><code class="hljs">python3 ok -q wwsd-quasiquote -u</code></pre></blockquote>
+
+
+
+<pre><code class="hljs">scm&gt; '(1 x 3)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">(1 x 3)</div>
+scm&gt; (define x 2)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">x</div>
+scm&gt; `(1 x 3)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">(1 x 3)</div>
+scm&gt; `(1 ,x 3)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">(1 2 3)</div>
+scm&gt; '(1 ,x 3)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">(1 (unquote x) 3)</div>
+scm&gt; `(,1 x 3)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">(1 x 3)</div>
+scm&gt; `,(+ 1 x 3)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">6</div>
+scm&gt; `(1 (,x) 3)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">(1 (2) 3)</div>
+scm&gt; `(1 ,(+ x 2) 3)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">(1 4 3)</div>
+scm&gt; (define y 3)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">y</div>
+scm&gt; `(x ,(* y x) y)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">(x 6 y)</div>
+scm&gt; `(1 ,(cons x (list y 4)) 5)
+<div class="alt prompt-4">______</div><div class="solution prompt-4">(1 (2 3 4) 5)</div></code></pre>
+        <button id="prompt-4" class="btn btn-outline btn-lg solutiontoggle prompt">
+        Toggle Solution<noscript> (enable JavaScript)</noscript>
+        </button>
+        
+
+
+<h2 id="macros">Macros</h2>
+
+
+<h3 class="question" id="q3">Q3: Scheme def</h3>
+
+<p>Implement <code>def</code>, which simulates a python <code>def</code> statement, allowing you to write code like
+<code>(def f(x y) (+ x y))</code>.</p>
+
+<p>The above expression should create a function with parameters <code>x</code> and <code>y</code>, and
+body <code>(+ x y)</code>, then bind it to the name <code>f</code> in the current frame.</p>
+
+<blockquote><p>Note: the previous is equivalent to <code>(def f (x y) (+ x y))</code>.</p>
+
+<p><strong>Hint:</strong> We <em>strongly</em> suggest doing the WWPD questions on macros first as
+understanding the rules of macro evaluation is key in writing macros.</p></blockquote>
+
+<solution>
+
+<pre><code class="scheme hljs">
+(<span class="hljs-name"><span class="hljs-keyword">define-macro</span></span> (<span class="hljs-name">def</span> func args body)
+    <span class="hljs-symbol">'YOUR-CODE-HERE</span>)
+</code></pre>
+
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q scheme-def</code></pre>
+
+
+<h2 id="streams">Streams</h2>
+
+
+<h3 class="question" id="q4">Q4: Multiples of 3</h3>
+
+<p>Define implicitly an infinite stream <code>all-three-multiples</code> that contains
+all the multiples of 3, starting at 3. For example, the first 5 elements should be:
+(3 6 9 12 15)</p>
+
+<p>You may use the <code>map-stream</code> function defined below. <code>map-stream</code> takes in
+a one-argument function <code>f</code> and a stream <code>s</code> and returns a new stream containing
+the elements of <code>s</code> with <code>f</code> applied.</p>
+
+<pre><code class="hljs scheme">(<span class="hljs-name"><span class="hljs-keyword">define</span></span> (<span class="hljs-name">map-stream</span> f s)
+	(<span class="hljs-name"><span class="hljs-keyword">if</span></span> (<span class="hljs-name">null?</span> s)
+		nil
+		(<span class="hljs-name"><span class="hljs-keyword">cons-stream</span></span> (<span class="hljs-name">f</span> (<span class="hljs-name">car</span> s)) (<span class="hljs-name">map-stream</span> f (<span class="hljs-name">cdr-stream</span> s)))))</code></pre>
+
+<p><strong>Do not define any other helper functions.</strong></p>
+
+<solution>
+
+<pre><code class="scheme hljs">(<span class="hljs-name"><span class="hljs-keyword">define</span></span> (<span class="hljs-name">map-stream</span> f s)
+    (<span class="hljs-name"><span class="hljs-keyword">if</span></span> (<span class="hljs-name">null?</span> s)
+    	nil
+    	(<span class="hljs-name"><span class="hljs-keyword">cons-stream</span></span> (<span class="hljs-name">f</span> (<span class="hljs-name">car</span> s)) (<span class="hljs-name">map-stream</span> f (<span class="hljs-name">cdr-stream</span> s)))))
+
+(<span class="hljs-name"><span class="hljs-keyword">define</span></span> all-three-multiples
+  <span class="hljs-symbol">'YOUR-CODE-HERE</span>
+)</code></pre>
+
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q multiples_3</code></pre>
+
+
+<h2 id="submit">Submit</h2>
+
+
+<p>Make sure to submit this assignment by running:</p>
+
+<pre><code class="hljs sql">python3 ok <span class="hljs-comment">--submit</span></code></pre>
+
+
+<h1 id="optional-questions">Optional Questions</h1>
+
+
+
+<h2 id="scheme-basics">Scheme Basics</h2>
+
+
+<h3 class="question" id="q5">Q5: Compose All</h3>
+
+<p>Implement <code>compose-all</code>, which takes a list of one-argument functions and
+returns a one-argument function that applies each function in that list in turn
+to its argument. For example, if <code>func</code> is the result of calling <code>compose-all</code>
+on a list of functions <code>(f g h)</code>, then <code>(func x)</code> should be equivalent to the
+result of calling <code>(h (g (f x)))</code>.</p>
+
+<pre><code class="scheme hljs">scm&gt; (<span class="hljs-name"><span class="hljs-keyword">define</span></span> (<span class="hljs-name">square</span> x) (<span class="hljs-name">*</span> x x))
+square
+scm&gt; (<span class="hljs-name"><span class="hljs-keyword">define</span></span> (<span class="hljs-name">add-one</span> x) (<span class="hljs-name">+</span> x <span class="hljs-number">1</span>))
+add-one
+scm&gt; (<span class="hljs-name"><span class="hljs-keyword">define</span></span> (<span class="hljs-name">double</span> x) (<span class="hljs-name">*</span> x <span class="hljs-number">2</span>))
+double
+scm&gt; (<span class="hljs-name"><span class="hljs-keyword">define</span></span> composed (<span class="hljs-name">compose-all</span> (<span class="hljs-name">list</span> double square add-one)))
+composed
+scm&gt; (<span class="hljs-name">composed</span> <span class="hljs-number">1</span>)
+<span class="hljs-number">5</span>
+scm&gt; (<span class="hljs-name">composed</span> <span class="hljs-number">2</span>)
+<span class="hljs-number">17</span></code></pre>
+
+
+
+<solution>
+
+<pre><code class="scheme hljs">(<span class="hljs-name"><span class="hljs-keyword">define</span></span> (<span class="hljs-name">compose-all</span> funcs)
+  <span class="hljs-symbol">'YOUR-CODE-HERE</span>
+)</code></pre>
+
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q compose-all</code></pre>
+
+
+<h2 id="streams">Streams</h2>
+
+
+<h3 class="question" id="q6">Q6: Partial sums</h3>
+
+<p>Define a function <code>partial-sums</code>, which takes in a stream with elements</p>
+
+<pre><code class="hljs">a1, a2, a3, ...</code></pre>
+
+<p>and outputs the stream</p>
+
+<pre><code class="hljs">a1, a1 + a2, a1 + a2 + a3, ...</code></pre>
+
+<p>If the input is a finite stream of length <em>n</em>, the output should be a
+finite stream of length <em>n</em>. If the input is an infinite stream, the
+output should also be an infinite stream.</p>
+
+<solution>
+
+<pre><code class="scheme hljs">(<span class="hljs-name"><span class="hljs-keyword">define</span></span> (<span class="hljs-name">partial-sums</span> stream)
+  <span class="hljs-symbol">'YOUR-CODE-HERE</span>
+  (<span class="hljs-name">helper</span> <span class="hljs-number">0</span> stream)
+)</code></pre>
+
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q partial-sums</code></pre>
+<script>
+    $('.alwaystoggle').css('display', 'inline-block');
+    $('.alwaystoggle').click(function() {
+      var solution_id = $(this).attr('id');
+      $('div.' + solution_id).slideToggle(600);
+    });
+</script>
+
+  </div>
+
+  <div class="col-md-3 sticky">
+    <nav class="hidden-print hidden-sm hidden-xs sidebar">
+      <ul class="nav nav-stacked noselect">
+  <li><a href="https://cs61a.org/lab/lab12/#topics">Topics</a></li>
+  <li><a href="https://cs61a.org/lab/lab12/#required-questions">Required Questions</a></li>
+  <ul class="nav nav-stacked noselect">
+    <li><a href="https://cs61a.org/lab/lab12/#what-would-scheme-display">What Would Scheme Display?</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/lab12/#q1">Q1: WWSD: Macros</a></li>
+      <li><a href="https://cs61a.org/lab/lab12/#q2">Q2: WWSD: Quasiquote</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/lab12/#macros">Macros</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/lab12/#q3">Q3: Scheme def</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/lab12/#streams">Streams</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/lab12/#q4">Q4: Multiples of 3</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/lab12/#submit">Submit</a></li>
+  </ul>
+  <li><a href="https://cs61a.org/lab/lab12/#optional-questions">Optional Questions</a></li>
+  <ul class="nav nav-stacked noselect">
+    <li><a href="https://cs61a.org/lab/lab12/#scheme-basics">Scheme Basics</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/lab12/#q5">Q5: Compose All</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/lab12/#streams">Streams</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/lab12/#q6">Q6: Partial sums</a></li>
+    </ul>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/weekly.html">Weekly Schedule</a></li>
+            <li><a href="https://cs61a.org/office-hours.html">Office Hours</a></li>
+            <li><a href="https://cs61a.org/staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/articles/studying.html">Studying Guide</a></li>
+            <li><a href="https://cs61a.org/articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="https://cs61a.org/articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/articles/about.html#assignments">Assignments</a></li>
+            <li><a href="https://cs61a.org/articles/about.html#exams">Exams</a></li>
+            <li><a href="https://cs61a.org/articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+
+  function goToId(id) {
+    var target = $(id);
+    console.log(target);
+    target.parent().show();
+    $('html,body').animate({
+      scrollTop: target.offset().top,
+    }, 100);
+    $("body").scrollspy('refresh');
+  }
+
+  if (location.hash) {
+    setTimeout(function() {
+      // window.scrollTo(0, 0);
+      if (location.hash) {
+        goToId(location.hash);
+      }
+    }, 1);
+  }
+
+  $("a").click(function(event) {
+    var urlBeforeHashRegEx = new RegExp("^"+window.location.href.split("#")[0]);
+    if (/^#/.test(this.hash) && urlBeforeHashRegEx.test(this.href)) {
+      event.preventDefault();
+      goToId(this.hash);
+      document.location.hash = this.hash;
+    }
+  });
+</script>
+
+  
+</body></html>

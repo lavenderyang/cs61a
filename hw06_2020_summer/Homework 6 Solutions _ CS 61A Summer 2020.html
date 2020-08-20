@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)https://cs61a.org/hw/sol-hw06/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="CS 61A: Structure and Interpretation of Computer Programs">
+    <meta name="keywords" content="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS">
+    <meta name="author" content="Chae Park, Kavi Gupta, Ryan Moughan">
+    
+    <meta name="viewport" content="width=device-width">
+
+    <script src="./Homework 6 Solutions _ CS 61A Summer 2020_files/jquery.min.js.download"></script>
+    <script src="./Homework 6 Solutions _ CS 61A Summer 2020_files/bootstrap.min.js.download"></script>
+    <script src="./Homework 6 Solutions _ CS 61A Summer 2020_files/hl.js.download"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="./Homework 6 Solutions _ CS 61A Summer 2020_files/dark-mode.js.download"></script>
+    <link rel="stylesheet" href="./Homework 6 Solutions _ CS 61A Summer 2020_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./Homework 6 Solutions _ CS 61A Summer 2020_files/css">
+    <link rel="stylesheet" href="./Homework 6 Solutions _ CS 61A Summer 2020_files/style.css">
+    <link rel="stylesheet" href="./Homework 6 Solutions _ CS 61A Summer 2020_files/mono-blue.css">
+    <link rel="icon" href="https://cs61a.org/assets/images/favicon.ico">
+
+    
+
+<link rel="stylesheet" type="text/css" href="./Homework 6 Solutions _ CS 61A Summer 2020_files/hw.css">
+
+
+    <title>
+Homework 6 Solutions | CS 61A Summer 2020
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://cs61a.org/">
+            <img style="max-width:60px; margin-top: -20px;" class="logo" src="./Homework 6 Solutions _ CS 61A Summer 2020_files/logo.png">
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://cs61a.org/weekly.html">Weekly Schedule</a></li>
+            <li><a href="https://cs61a.org/office-hours.html">Office Hours</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="https://cs61a.org/hw/sol-hw06/#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Staff
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="https://cs61a.org/instructor.html">Instructors</a></li>
+                <li><a href="https://cs61a.org/TAs.html">TAs</a></li>
+                <li><a href="https://cs61a.org/tutors.html">Tutors</a></li>
+                <!-- <li><a href="/academic-interns.html">Academic Interns</a></li> -->
+              </ul>
+            </li>
+            <li><a href="https://cs61a.org/resources.html">Resources</a></li>
+            <li><a href="https://cs61a.org/articles/about.html">Syllabus</a></li>
+            <li><a href="https://piazza.com/berkeley/summer2020/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="https://denero.org/feedback.html" target="_blank">Feedback</a></li>
+            <li><a href="https://edge.edx.org/courses/course-v1:BerkeleyX+CSW61A+2020_SP">EdX</a></li>
+            <!-- <li><a href="https://scheme.cs61a.org">Scheme</a></li> -->
+            <!-- <li><a href="https://sql.cs61a.org">SQL</a></li> -->
+            <li><a href="https://code.cs61a.org/">Code</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class="row">
+  <div class="col-md-9">
+    <header>
+      <h1>
+        
+Homework 6 Solutions
+
+        
+        
+        <ul class="inline-block list-inline">
+          <li><a href="https://cs61a.org/hw/sol-hw06/hw06.zip" class="label label-outline">hw06.zip</a></li>
+        </ul>
+        
+        
+      </h1>
+    </header>
+    
+<h2>Solution Files</h2>
+<p>You can find the solutions in <a href="https://cs61a.org/hw/sol-hw06/hw06.py">hw06.py</a>.</p>
+
+    
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="midsemester-survey">Midsemester Survey</h2>
+
+
+<h3 class="question" id="q1">Q1: Survey</h3>
+
+<p>Please fill out the midsemester survey, <a href="https://docs.google.com/forms/d/e/1FAIpQLSebb-sWiMb-iiGuoIwkwd7rHIE1vftuls6m_leM8TSlAf93Jg/viewform">linked here</a> by the 28th of July! Fill in <code>hw06.py</code> with the token. The link might not work if you are logged
+into some google account other than your Berkeley account, so either log out from all
+other accounts or open the link in a private/incognito window and sign in to
+your Berkeley account there.</p>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q survey</code></pre>
+
+
+<h2 id="oop">OOP</h2>
+
+
+<h3 class="question" id="q2">Q2: Vending Machine</h3>
+
+<p>Create a class called <code>VendingMachine</code> that represents a vending
+machine for some product. A <code>VendingMachine</code> object returns strings
+describing its interactions.</p>
+
+<p>Fill in the <code>VendingMachine</code> class, adding attributes and methods as
+appropriate, such that its behavior matches the following doctests:</p>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">VendingMachine</span>:</span>
+    <span class="hljs-string">"""A vending machine that vends some product for some price.
+
+    &gt;&gt;&gt; v = VendingMachine('candy', 10)
+    &gt;&gt;&gt; v.vend()
+    'Inventory empty. Restocking required.'
+    &gt;&gt;&gt; v.add_funds(15)
+    'Inventory empty. Restocking required. Here is your $15.'
+    &gt;&gt;&gt; v.restock(2)
+    'Current candy stock: 2'
+    &gt;&gt;&gt; v.vend()
+    'You must add $10 more funds.'
+    &gt;&gt;&gt; v.add_funds(7)
+    'Current balance: $7'
+    &gt;&gt;&gt; v.vend()
+    'You must add $3 more funds.'
+    &gt;&gt;&gt; v.add_funds(5)
+    'Current balance: $12'
+    &gt;&gt;&gt; v.vend()
+    'Here is your candy and $2 change.'
+    &gt;&gt;&gt; v.add_funds(10)
+    'Current balance: $10'
+    &gt;&gt;&gt; v.vend()
+    'Here is your candy.'
+    &gt;&gt;&gt; v.add_funds(15)
+    'Inventory empty. Restocking required. Here is your $15.'
+
+    &gt;&gt;&gt; w = VendingMachine('soda', 2)
+    &gt;&gt;&gt; w.restock(3)
+    'Current soda stock: 3'
+    &gt;&gt;&gt; w.restock(3)
+    'Current soda stock: 6'
+    &gt;&gt;&gt; w.add_funds(2)
+    'Current balance: $2'
+    &gt;&gt;&gt; w.vend()
+    'Here is your soda.'
+    """</span>
+<div class="sol-highlight">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, product, price)</span>:</span>
+        self.product = product
+        self.price = price
+        self.stock = <span class="hljs-number">0</span>
+        self.balance = <span class="hljs-number">0</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">restock</span><span class="hljs-params">(self, n)</span>:</span>
+        self.stock += n
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'Current {0} stock: {1}'</span>.format(self.product, self.stock)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_funds</span><span class="hljs-params">(self, n)</span>:</span>
+        <span class="hljs-keyword">if</span> self.stock == <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">'Inventory empty. Restocking required. Here is your ${0}.'</span>.format(n)
+        self.balance += n
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'Current balance: ${0}'</span>.format(self.balance)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">vend</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">if</span> self.stock == <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">'Inventory empty. Restocking required.'</span>
+        difference = self.price - self.balance
+        <span class="hljs-keyword">if</span> difference &gt; <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">'You must add ${0} more funds.'</span>.format(difference)
+        message = <span class="hljs-string">'Here is your {0}'</span>.format(self.product)
+        <span class="hljs-keyword">if</span> difference != <span class="hljs-number">0</span>:
+            message += <span class="hljs-string">' and ${0} change'</span>.format(-difference)
+        self.balance = <span class="hljs-number">0</span>
+        self.stock -= <span class="hljs-number">1</span>
+        <span class="hljs-keyword">return</span> message + <span class="hljs-string">'.'</span></div></code></pre>
+
+</solution>
+
+<blockquote><p>You may find <a href="https://docs.python.org/2/library/stdtypes.html#str.format">Python string formatting
+syntax</a> useful.
+A quick example:</p></blockquote>
+
+<pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>ten, twenty, thirty = <span class="hljs-number">10</span>, <span class="hljs-string">'twenty'</span>, [<span class="hljs-number">30</span>]
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-string">'{0} plus {1} is {2}'</span>.format(ten, twenty, thirty)
+<span class="hljs-string">'10 plus twenty is [30]'</span></code></pre>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q VendingMachine</code></pre>
+
+<div class="sol-highlight">
+
+<p>Reading through the doctests, it should be clear which functions we should add
+to ensure that the vending machine class behaves correctly.</p>
+
+<p><code>__init__</code></p>
+
+<ul>
+  <li>This can be difficult to fill out at first. Both <code>product</code> and <code>price</code> seem
+  pretty obvious to keep around, but <code>stock</code> and <code>balance</code> are quantities that
+  are needed only after attempting other functions.</li>
+</ul>
+
+<p><code>restock</code></p>
+
+<ul>
+  <li>Even though <code>v.restock(2)</code> takes only one argument in the doctest, remember
+  that <code>self</code> is bound to the object the <code>restock</code> method is invoked on.
+  Therefore, this function has two parameters.</li>
+  <li>While implementing this function, you will probably realize that you would
+  like to keep track of the stock somewhere. While it might be possible to set
+  the stock in this function as an instance attribute, it would lose whatever
+  the old stock was.
+  Therefore, the natural solution is to initialize stock in the constructor, and
+  then update it in <code>restock</code>.</li>
+</ul>
+
+<p><code>add_funds</code></p>
+
+<ul>
+  <li>This behaves very similarly to <code>restock</code>. See comments above.</li>
+  <li>Also yes, this is quite the expensive vending machine.</li>
+</ul>
+
+<p><code>vend</code></p>
+
+<ul>
+  <li><p>The trickiest thing here is to make sure we handle all the cases. You may find
+  it helpful when implementing a problem like this to keep track of all the
+  errors we run into in the doctest.</p>
+
+  <ol>
+    <li>No stock</li>
+    <li>Not enough balance</li>
+    <li>Leftover balance after purchase (return change to customer)</li>
+    <li>No leftover balance after purchase</li>
+  </ol></li>
+  <li><p>We use some string concatenation at the end when handling case 3 and 4 to try
+  and reduce the amount of code. This isn't necessary for correctness -- it's ok
+  to have something like:</p>
+
+<pre><code class="hljs python"><span class="hljs-keyword">if</span> difference != <span class="hljs-number">0</span>:
+    <span class="hljs-keyword">return</span> ...
+<span class="hljs-keyword">else</span>:
+    <span class="hljs-keyword">return</span> ...</code></pre>
+
+  <p>Of course, that would require decrementing the balance and stock beforehand.</p></li>
+</ul>
+
+<p>Video walkthrough: <a href="https://youtu.be/7A8WtnX89z4"> https://youtu.be/7A8WtnX89z4 </a></p>
+
+</div>
+
+<h3 class="question" id="q3">Q3: Mint</h3>
+
+<p>Complete the <code>Mint</code> and <code>Coin</code> classes so that the coins created by a mint have
+the correct year and worth.</p>
+
+<ul>
+  <li>Each <code>Mint</code> instance has a <code>year</code> stamp. The <code>update</code> method sets the
+  <code>year</code> stamp to the <code>current_year</code> class attribute of the <code>Mint</code> class.</li>
+  <li>The <code>create</code> method takes a subclass of <code>Coin</code> and returns an instance of
+  that class stamped with the <code>mint</code>'s year (which may be different from
+  <code>Mint.current_year</code> if it has not been updated.)</li>
+  <li>A <code>Coin</code>'s <code>worth</code> method returns the <code>cents</code> value of the coin plus one
+  extra cent for each year of age beyond 50. A coin's age can be determined
+  by subtracting the coin's year from the <code>current_year</code> class attribute of
+  the <code>Mint</code> class.</li>
+</ul>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mint</span>:</span>
+    <span class="hljs-string">"""A mint creates coins by stamping on years.
+
+    The update method sets the mint's stamp to Mint.current_year.
+
+    &gt;&gt;&gt; mint = Mint()
+    &gt;&gt;&gt; mint.year
+    2020
+    &gt;&gt;&gt; dime = mint.create(Dime)
+    &gt;&gt;&gt; dime.year
+    2020
+    &gt;&gt;&gt; Mint.current_year = 2100  # Time passes
+    &gt;&gt;&gt; nickel = mint.create(Nickel)
+    &gt;&gt;&gt; nickel.year     # The mint has not updated its stamp yet
+    2020
+    &gt;&gt;&gt; nickel.worth()  # 5 cents + (80 - 50 years)
+    35
+    &gt;&gt;&gt; mint.update()   # The mint's year is updated to 2100
+    &gt;&gt;&gt; Mint.current_year = 2175     # More time passes
+    &gt;&gt;&gt; mint.create(Dime).worth()    # 10 cents + (75 - 50 years)
+    35
+    &gt;&gt;&gt; Mint().create(Dime).worth()  # A new mint has the current year
+    10
+    &gt;&gt;&gt; dime.worth()     # 10 cents + (155 - 50 years)
+    115
+    &gt;&gt;&gt; Dime.cents = 20  # Upgrade all dimes!
+    &gt;&gt;&gt; dime.worth()     # 20 cents + (155 - 50 years)
+    125
+    """</span>
+    current_year = <span class="hljs-number">2020</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        self.update()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">create</span><span class="hljs-params">(self, kind)</span>:</span>
+<div class="sol-highlight">        <span class="hljs-keyword">return</span> kind(self.year)</div>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">update</span><span class="hljs-params">(self)</span>:</span>
+<div class="sol-highlight">        self.year = Mint.current_year</div>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Coin</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, year)</span>:</span>
+        self.year = year
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">worth</span><span class="hljs-params">(self)</span>:</span>
+<div class="sol-highlight">        <span class="hljs-keyword">return</span> self.cents + max(<span class="hljs-number">0</span>, Mint.current_year - self.year - <span class="hljs-number">50</span>)</div>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Nickel</span><span class="hljs-params">(Coin)</span>:</span>
+    cents = <span class="hljs-number">5</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Dime</span><span class="hljs-params">(Coin)</span>:</span>
+    cents = <span class="hljs-number">10</span></code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q Mint</code></pre>
+
+
+<h2 id="trees">Trees</h2>
+
+
+<h3 class="question" id="q4">Q4: Is BST</h3>
+
+<p>Write a function <code>is_bst</code>, which takes a Tree <code>t</code> and returns <code>True</code> if, and
+only if, <code>t</code> is a valid binary search tree, which means that:</p>
+
+<ul>
+  <li>Each node has at most two children (a leaf is automatically a valid binary
+  search tree)</li>
+  <li>The children are valid binary search trees</li>
+  <li>For every node, the entries in that node's left child are less than or equal
+  to the label of the node</li>
+  <li>For every node, the entries in that node's right child are greater than the
+  label of the node</li>
+</ul>
+
+<p>An example of a BST is:</p>
+
+<p><img class="img-responsive center-block" src="./Homework 6 Solutions _ CS 61A Summer 2020_files/1_F8MmBnUQyOA8-Rajg69nSQ.png" alt="bst"></p>
+
+<p>Note that, if a node has only one child, that child could be considered either
+the left or right child. You should take this into consideration.</p>
+
+<p><em>Hint:</em> It may be helpful to write helper functions <code>bst_min</code> and <code>bst_max</code> that
+return the minimum and maximum, respectively, of a Tree if it is a valid binary
+search tree.</p>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">is_bst</span><span class="hljs-params">(t)</span>:</span>
+    <span class="hljs-string">"""Returns True if the Tree t has the structure of a valid BST.
+
+    &gt;&gt;&gt; t1 = Tree(6, [Tree(2, [Tree(1), Tree(4)]), Tree(7, [Tree(7), Tree(8)])])
+    &gt;&gt;&gt; is_bst(t1)
+    True
+    &gt;&gt;&gt; t2 = Tree(8, [Tree(2, [Tree(9), Tree(1)]), Tree(3, [Tree(6)]), Tree(5)])
+    &gt;&gt;&gt; is_bst(t2)
+    False
+    &gt;&gt;&gt; t3 = Tree(6, [Tree(2, [Tree(4), Tree(1)]), Tree(7, [Tree(7), Tree(8)])])
+    &gt;&gt;&gt; is_bst(t3)
+    False
+    &gt;&gt;&gt; t4 = Tree(1, [Tree(2, [Tree(3, [Tree(4)])])])
+    &gt;&gt;&gt; is_bst(t4)
+    True
+    &gt;&gt;&gt; t5 = Tree(1, [Tree(0, [Tree(-1, [Tree(-2)])])])
+    &gt;&gt;&gt; is_bst(t5)
+    True
+    &gt;&gt;&gt; t6 = Tree(1, [Tree(4, [Tree(2, [Tree(3)])])])
+    &gt;&gt;&gt; is_bst(t6)
+    True
+    &gt;&gt;&gt; t7 = Tree(2, [Tree(1, [Tree(5)]), Tree(4)])
+    &gt;&gt;&gt; is_bst(t7)
+    False
+    """</span>
+<div class="sol-highlight">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bst_min</span><span class="hljs-params">(t)</span>:</span>
+        <span class="hljs-string">"""Returns the min of t, if t has the structure of a valid BST."""</span>
+        <span class="hljs-keyword">if</span> t.is_leaf():
+            <span class="hljs-keyword">return</span> t.label
+        <span class="hljs-keyword">return</span> min(t.label, bst_min(t.branches[<span class="hljs-number">0</span>]))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bst_max</span><span class="hljs-params">(t)</span>:</span>
+        <span class="hljs-string">"""Returns the max of t, if t has the structure of a valid BST."""</span>
+        <span class="hljs-keyword">if</span> t.is_leaf():
+            <span class="hljs-keyword">return</span> t.label
+        <span class="hljs-keyword">return</span> max(t.label, bst_max(t.branches[<span class="hljs-number">-1</span>]))
+
+    <span class="hljs-keyword">if</span> t.is_leaf():
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+    <span class="hljs-keyword">if</span> len(t.branches) == <span class="hljs-number">1</span>:
+        c = t.branches[<span class="hljs-number">0</span>]
+        <span class="hljs-keyword">return</span> is_bst(c) <span class="hljs-keyword">and</span> (bst_max(c) &lt;= t.label <span class="hljs-keyword">or</span> bst_min(c) &gt; t.label)
+    <span class="hljs-keyword">elif</span> len(t.branches) == <span class="hljs-number">2</span>:
+        c1, c2 = t.branches
+        valid_branches = is_bst(c1) <span class="hljs-keyword">and</span> is_bst(c2)
+        <span class="hljs-keyword">return</span> valid_branches <span class="hljs-keyword">and</span> bst_max(c1) &lt;= t.label <span class="hljs-keyword">and</span> bst_min(c2) &gt; t.label
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span></div></code></pre>
+
+</solution>
+
+<br>
+
+<p>Watch the hints video below for somewhere to start:
+
+            <iframe width="560" height="315" src="./Homework 6 Solutions _ CS 61A Summer 2020_files/doxVXOrn4AQ.html" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></p>
+
+<br>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q is_bst</code></pre>
+
+
+<h2 id="linked-lists">Linked Lists</h2>
+
+
+<h3 class="question" id="q5">Q5: Store Digits</h3>
+
+<p>Write a function <code>store_digits</code> that takes in an integer <code>n</code> and returns
+a linked list where each element of the list is a digit of <code>n</code>.</p>
+
+<blockquote><p>Note: do not use any string manipulation functions like <code>str</code> and <code>reversed</code></p></blockquote>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">store_digits</span><span class="hljs-params">(n)</span>:</span>
+    <span class="hljs-string">"""Stores the digits of a positive number n in a linked list.
+
+    &gt;&gt;&gt; s = store_digits(1)
+    &gt;&gt;&gt; s
+    Link(1)
+    &gt;&gt;&gt; store_digits(2345)
+    Link(2, Link(3, Link(4, Link(5))))
+    &gt;&gt;&gt; store_digits(876)
+    Link(8, Link(7, Link(6)))
+    &gt;&gt;&gt; # a check for restricted functions
+    &gt;&gt;&gt; import inspect, re
+    &gt;&gt;&gt; cleaned = re.sub(r"#.*\\n", '', re.sub(r'"{3}[\s\S]*?"{3}', '', inspect.getsource(store_digits)))
+    &gt;&gt;&gt; print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
+    """</span>
+<div class="sol-highlight">    result = Link.empty
+    <span class="hljs-keyword">while</span> n &gt; <span class="hljs-number">0</span>:
+        result = Link(n % <span class="hljs-number">10</span>, result)
+        n //= <span class="hljs-number">10</span>
+    <span class="hljs-keyword">return</span> result</div></code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q store_digits</code></pre>
+
+
+<h2 id="generators-trees">Generators/Trees</h2>
+
+
+<h3 class="question" id="q6">Q6: Yield Paths</h3>
+
+<p>Define a generator function <code>path_yielder</code> which takes in a Tree <code>t</code>, a value
+<code>value</code>, and returns a generator object which yields each path from the root of <code>t</code>
+to a node that has label <code>value</code>.</p>
+
+<p><code>t</code> is implemented with a class, not as the function-based ADT.</p>
+
+<p>Each path should be represented as a list of the labels along that path in the
+tree. You may yield the paths in any order.</p>
+
+<p>We have provided a (partial) skeleton for you. You do not need to use this skeleton,
+but if your implementation diverges significantly from it, you might
+want to think about how you can get it to fit the skeleton.</p>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">path_yielder</span><span class="hljs-params">(t, value)</span>:</span>
+    <span class="hljs-string">"""Yields all possible paths from the root of t to a node with the label value
+    as a list.
+
+    &gt;&gt;&gt; t1 = Tree(1, [Tree(2, [Tree(3), Tree(4, [Tree(6)]), Tree(5)]), Tree(5)])
+    &gt;&gt;&gt; print(t1)
+    1
+      2
+        3
+        4
+          6
+        5
+      5
+    &gt;&gt;&gt; next(path_yielder(t1, 6))
+    [1, 2, 4, 6]
+    &gt;&gt;&gt; path_to_5 = path_yielder(t1, 5)
+    &gt;&gt;&gt; sorted(list(path_to_5))
+    [[1, 2, 5], [1, 5]]
+
+    &gt;&gt;&gt; t2 = Tree(0, [Tree(2, [t1])])
+    &gt;&gt;&gt; print(t2)
+    0
+      2
+        1
+          2
+            3
+            4
+              6
+            5
+          5
+    &gt;&gt;&gt; path_to_2 = path_yielder(t2, 2)
+    &gt;&gt;&gt; sorted(list(path_to_2))
+    [[0, 2], [0, 2, 1, 2]]
+    """</span>
+
+<div class="sol-highlight">    <span class="hljs-keyword">if</span> t.label == value:
+    	<span class="hljs-keyword">yield</span> [value]</div>
+<div class="sol-highlight">    <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> t.branches:</div><div class="sol-highlight">    	<span class="hljs-keyword">for</span> path <span class="hljs-keyword">in</span> path_yielder(b, value):</div>
+<div class="sol-highlight">    		<span class="hljs-keyword">yield</span> [t.label] + path</div></code></pre>
+
+<blockquote><p>Hint: If you're having trouble getting started, think about how you'd approach this
+problem if it wasn't a generator function. What would your recursive calls be?
+With a generator function, what happens if you make a "recurisve call" within its body?</p></blockquote>
+
+<br>
+
+<p>Watch the hints video below for somewhere to start:
+
+            <iframe width="560" height="315" src="./Homework 6 Solutions _ CS 61A Summer 2020_files/43rVEl9ev7M.html" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></p>
+
+<br>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q path_yielder</code></pre>
+
+<div class="sol-highlight">
+
+<p>If our current label is equal to <code>value</code>, we've found a path from the root to a node
+containing <code>value</code> containing only our current label, so we should yield that. From there,
+we'll see if there are any paths starting from one of our branches that ends at a
+node containing <code>value</code>. If we find these "partial paths" we can simply add our current
+label to the beinning of a path to obtain a path starting from the root.</p>
+
+<p>In order to do this, we'll create a generator for each of the branches which yields
+these "partial paths". By calling <code>path_yielder</code> on each of the branches, we'll create
+exactly this generator! Then, since a generator is also an iterable, we can iterate over
+the paths in this generator and yield the result of concatenating it with our current label.</p>
+
+</div>
+
+
+<h2 id="submit">Submit</h2>
+
+
+<p>Make sure to submit this assignment by running:</p>
+
+<pre><code class="hljs sql">python3 ok <span class="hljs-comment">--submit</span></code></pre>
+
+
+<h1 id="optional-questions">Optional Questions</h1>
+
+
+<h3 class="question" id="q7">Q7: Remove All</h3>
+
+<p>Implement a function <code>remove_all</code> that takes a <code>Link</code>, and a <code>value</code>,
+and remove any linked list node containing that value.  You can assume the
+list already has at least one node containing <code>value</code> and the first element is
+never removed. Notice that you are not returning anything, so you should mutate the list.</p>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remove_all</span><span class="hljs-params">(link , value)</span>:</span>
+    <span class="hljs-string">"""Remove all the nodes containing value in link. Assume that the
+    first element is never removed.
+
+    &gt;&gt;&gt; l1 = Link(0, Link(2, Link(2, Link(3, Link(1, Link(2, Link(3)))))))
+    &gt;&gt;&gt; print(l1)
+    &lt;0 2 2 3 1 2 3&gt;
+    &gt;&gt;&gt; remove_all(l1, 2)
+    &gt;&gt;&gt; print(l1)
+    &lt;0 3 1 3&gt;
+    &gt;&gt;&gt; remove_all(l1, 3)
+    &gt;&gt;&gt; print(l1)
+    &lt;0 1&gt;
+    &gt;&gt;&gt; remove_all(l1, 3)
+    &gt;&gt;&gt; print(l1)
+    &lt;0 1&gt;
+    """</span>
+<div class="sol-highlight">    <span class="hljs-keyword">if</span> link <span class="hljs-keyword">is</span> Link.empty <span class="hljs-keyword">or</span> link.rest <span class="hljs-keyword">is</span> Link.empty:
+        <span class="hljs-keyword">return</span>
+    <span class="hljs-keyword">if</span> link.rest.first == value:
+        link.rest = link.rest.rest
+        remove_all(link, value)
+    <span class="hljs-keyword">else</span>:
+        remove_all(link.rest, value)
+
+    <span class="hljs-comment"># alternate solution</span>
+    <span class="hljs-keyword">if</span> link <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> Link.empty <span class="hljs-keyword">and</span> link.rest <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> Link.empty:
+        remove_all(link.rest, value)
+        <span class="hljs-keyword">if</span> link.rest.first == value:
+            link.rest = link.rest.rest
+</div></code></pre>
+
+</solution>
+
+<div class="sol-highlight">
+	Video Walkthrough: <a href="https://youtu.be/hdO9Ry8d5FU?t=39m33s"> https://youtu.be/hdO9Ry8d5FU?t=39m33s </a>
+</div>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q remove_all</code></pre>
+
+<h3 class="question" id="q8">Q8: Deep Map</h3>
+
+<p>Implement <code>deep_map</code>, which takes a function <code>f</code> and a <code>link</code>. It returns a
+<em>new</em> linked list with the same structure as <code>link</code>, but with <code>f</code> applied to any
+element within <code>link</code> or any <code>Link</code> instance contained in <code>link</code>.</p>
+
+<p>The <code>deep_map</code> function should recursively apply <code>fn</code> to each of that
+<code>Link</code>'s elements rather than to that <code>Link</code> itself.</p>
+
+<p><em>Hint</em>: You may find the built-in <code>isinstance</code> function useful. You can also use the
+<code>type(link) == Link</code> to check whether an object is a linked list (like you did in homework 3
+question 1).</p>
+
+<solution>
+
+<pre><code class="hljs sql">def deep_map(f, link):
+    """Return a Link <span class="hljs-keyword">with</span> the same structure <span class="hljs-keyword">as</span> <span class="hljs-keyword">link</span> but <span class="hljs-keyword">with</span> fn mapped <span class="hljs-keyword">over</span>
+    its elements. <span class="hljs-keyword">If</span> an <span class="hljs-keyword">element</span> <span class="hljs-keyword">is</span> an <span class="hljs-keyword">instance</span> <span class="hljs-keyword">of</span> a linked <span class="hljs-keyword">list</span>, recursively
+    <span class="hljs-keyword">apply</span> f inside that linked <span class="hljs-keyword">list</span> <span class="hljs-keyword">as</span> well.
+
+    &gt;&gt;&gt; s = <span class="hljs-keyword">Link</span>(<span class="hljs-number">1</span>, <span class="hljs-keyword">Link</span>(<span class="hljs-keyword">Link</span>(<span class="hljs-number">2</span>, <span class="hljs-keyword">Link</span>(<span class="hljs-number">3</span>)), <span class="hljs-keyword">Link</span>(<span class="hljs-number">4</span>)))
+    &gt;&gt;&gt; print(deep_map(lambda x: x * x, s))
+    &lt;<span class="hljs-number">1</span> &lt;<span class="hljs-number">4</span> <span class="hljs-number">9</span>&gt; <span class="hljs-number">16</span>&gt;
+    &gt;&gt;&gt; print(s) <span class="hljs-comment"># unchanged</span>
+    &lt;<span class="hljs-number">1</span> &lt;<span class="hljs-number">2</span> <span class="hljs-number">3</span>&gt; <span class="hljs-number">4</span>&gt;
+    &gt;&gt;&gt; print(deep_map(lambda x: <span class="hljs-number">2</span> * x, <span class="hljs-keyword">Link</span>(s, <span class="hljs-keyword">Link</span>(<span class="hljs-keyword">Link</span>(<span class="hljs-keyword">Link</span>(<span class="hljs-number">5</span>))))))
+    &lt;&lt;<span class="hljs-number">2</span> &lt;<span class="hljs-number">4</span> <span class="hljs-number">6</span>&gt; <span class="hljs-number">8</span>&gt; &lt;&lt;<span class="hljs-number">10</span>&gt;&gt;&gt;
+    <span class="hljs-string">"""
+</span><div class="sol-highlight"><span class="hljs-string">    if link is Link.empty:
+        return link
+    if isinstance(link.first, Link):
+        first = deep_map(f, link.first)
+    else:
+        first = f(link.first)
+    return Link(first, deep_map(f, link.rest))</span></div></code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q deep_map</code></pre>
+
+  </div>
+
+  <div class="col-md-3 sticky">
+    <nav class="hidden-print hidden-sm hidden-xs sidebar">
+      <ul class="nav nav-stacked noselect">
+  <li><a href="https://cs61a.org/hw/sol-hw06/#required-questions">Required Questions</a></li>
+  <ul class="nav nav-stacked noselect">
+    <li><a href="https://cs61a.org/hw/sol-hw06/#midsemester-survey">Midsemester Survey</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/hw/sol-hw06/#q1">Q1: Survey</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/hw/sol-hw06/#oop">OOP</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/hw/sol-hw06/#q2">Q2: Vending Machine</a></li>
+      <li><a href="https://cs61a.org/hw/sol-hw06/#q3">Q3: Mint</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/hw/sol-hw06/#trees">Trees</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/hw/sol-hw06/#q4">Q4: Is BST</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/hw/sol-hw06/#linked-lists">Linked Lists</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/hw/sol-hw06/#q5">Q5: Store Digits</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/hw/sol-hw06/#generators-trees">Generators/Trees</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/hw/sol-hw06/#q6">Q6: Yield Paths</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/hw/sol-hw06/#submit">Submit</a></li>
+  </ul>
+  <li><a href="https://cs61a.org/hw/sol-hw06/#optional-questions">Optional Questions</a></li>
+  <ul class="nav nav-stacked noselect">
+    <li><a href="https://cs61a.org/hw/sol-hw06/#q7">Q7: Remove All</a></li>
+    <li><a href="https://cs61a.org/hw/sol-hw06/#q8">Q8: Deep Map</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/weekly.html">Weekly Schedule</a></li>
+            <li><a href="https://cs61a.org/office-hours.html">Office Hours</a></li>
+            <li><a href="https://cs61a.org/staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/articles/studying.html">Studying Guide</a></li>
+            <li><a href="https://cs61a.org/articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="https://cs61a.org/articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/articles/about.html#assignments">Assignments</a></li>
+            <li><a href="https://cs61a.org/articles/about.html#exams">Exams</a></li>
+            <li><a href="https://cs61a.org/articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+
+  function goToId(id) {
+    var target = $(id);
+    console.log(target);
+    target.parent().show();
+    $('html,body').animate({
+      scrollTop: target.offset().top,
+    }, 100);
+    $("body").scrollspy('refresh');
+  }
+
+  if (location.hash) {
+    setTimeout(function() {
+      // window.scrollTo(0, 0);
+      if (location.hash) {
+        goToId(location.hash);
+      }
+    }, 1);
+  }
+
+  $("a").click(function(event) {
+    var urlBeforeHashRegEx = new RegExp("^"+window.location.href.split("#")[0]);
+    if (/^#/.test(this.hash) && urlBeforeHashRegEx.test(this.href)) {
+      event.preventDefault();
+      goToId(this.hash);
+      document.location.hash = this.hash;
+    }
+  });
+</script>
+
+  
+</body></html>

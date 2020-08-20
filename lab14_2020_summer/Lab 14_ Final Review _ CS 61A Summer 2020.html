@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)https://cs61a.org/lab/lab14/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="CS 61A: Structure and Interpretation of Computer Programs">
+    <meta name="keywords" content="CS 61A, Computer Science, CS, 61A, Programming, John DeNero, Berkeley, EECS">
+    <meta name="author" content="Chae Park, Kavi Gupta, Ryan Moughan">
+    
+    <meta name="viewport" content="width=device-width">
+
+    <script src="./Lab 14_ Final Review _ CS 61A Summer 2020_files/jquery.min.js.download"></script>
+    <script src="./Lab 14_ Final Review _ CS 61A Summer 2020_files/bootstrap.min.js.download"></script>
+    <script src="./Lab 14_ Final Review _ CS 61A Summer 2020_files/hl.js.download"></script>
+    <script>
+        // we aren't registering builtins since
+        //      (1) they don't render differently in the current CSS from other names
+        //      (2) it's a mess to list all of them. You can extract from the site but that takes effort
+        // if (1) ceases to be true, (2) might be worth the effort. For now, we're leaving as is
+        hljsRegister({
+            'keyword': "define if cond and or let begin lambda mu quote delay cons-stream set! quasiquote unquote unquote-splicing define-macro"
+        });
+        hljs.initHighlightingOnLoad();
+    </script>
+    <script src="./Lab 14_ Final Review _ CS 61A Summer 2020_files/dark-mode.js.download"></script>
+    <link rel="stylesheet" href="./Lab 14_ Final Review _ CS 61A Summer 2020_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./Lab 14_ Final Review _ CS 61A Summer 2020_files/css">
+    <link rel="stylesheet" href="./Lab 14_ Final Review _ CS 61A Summer 2020_files/style.css">
+    <link rel="stylesheet" href="./Lab 14_ Final Review _ CS 61A Summer 2020_files/mono-blue.css">
+    <link rel="icon" href="https://cs61a.org/assets/images/favicon.ico">
+
+    
+
+    <title>
+Lab 14: Final Review | CS 61A Summer 2020
+</title>
+  </head>
+
+  <body id="index" class="home">
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container noselect">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-section">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://cs61a.org/">
+            <img style="max-width:60px; margin-top: -20px;" class="logo" src="./Lab 14_ Final Review _ CS 61A Summer 2020_files/logo.png">
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-section">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://cs61a.org/weekly.html">Weekly Schedule</a></li>
+            <li><a href="https://cs61a.org/office-hours.html">Office Hours</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="https://cs61a.org/lab/lab14/#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Staff
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a href="https://cs61a.org/instructor.html">Instructors</a></li>
+                <li><a href="https://cs61a.org/TAs.html">TAs</a></li>
+                <li><a href="https://cs61a.org/tutors.html">Tutors</a></li>
+                <!-- <li><a href="/academic-interns.html">Academic Interns</a></li> -->
+              </ul>
+            </li>
+            <li><a href="https://cs61a.org/resources.html">Resources</a></li>
+            <li><a href="https://cs61a.org/articles/about.html">Syllabus</a></li>
+            <li><a href="https://piazza.com/berkeley/summer2020/cs61a" target="_blank">Piazza</a></li>
+            <li><a href="https://denero.org/feedback.html" target="_blank">Feedback</a></li>
+            <li><a href="https://edge.edx.org/courses/course-v1:BerkeleyX+CSW61A+2020_SP">EdX</a></li>
+            <!-- <li><a href="https://scheme.cs61a.org">Scheme</a></li> -->
+            <!-- <li><a href="https://sql.cs61a.org">SQL</a></li> -->
+            <li><a href="https://code.cs61a.org/">Code</a></li>
+            <li><a href="http://tutor.cs61a.org/">Tutor</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="container">
+      
+<div class="row">
+  <div class="col-md-9">
+    <header>
+      <h1>
+        
+Lab 14: Final Review
+
+        
+        
+        <ul class="inline-block list-inline">
+          <li><a href="https://cs61a.org/lab/lab14/lab14.zip" class="label label-outline">lab14.zip</a></li>
+        </ul>
+        
+        
+      </h1>
+    </header>
+    
+
+<p><i>Due by 11:59pm on Wednesday, August 12.</i></p>
+
+
+
+
+<h2 id="starter-files">Starter Files</h2>
+
+<p>Download <a href="https://cs61a.org/lab/lab14/lab14.zip">lab14.zip</a>.
+Inside the archive, you will find starter files for the questions in this lab,
+  along with a copy of the <a href="https://cs61a.org/lab/lab14/ok">Ok</a> autograder.</p>
+
+
+<h2 id="submission">Submission</h2>
+
+<p>By the end of this lab, you should have submitted the lab with
+<code>python3 ok --submit</code>. You may submit more than once before the
+deadline; only the final submission will be graded.
+Check that you have successfully submitted your code on
+<a href="https://okpy.org/">okpy.org</a>.</p>
+
+
+
+
+
+    
+<h1 id="required-questions">Required Questions</h1>
+
+
+
+<h2 id="trees">Trees</h2>
+
+
+<h3 class="question" id="q1">Q1: Prune Min</h3>
+
+<p>Write a function that prunes a <code>Tree</code> <code>t</code> mutatively. <code>t</code> and its branches
+always have zero or two branches. For the trees with two branches, reduce the
+number of branches from two to one by keeping the branch that has the smaller
+label value. Do nothing with trees with zero branches.</p>
+
+<p>Prune the tree in a direction of your choosing (top down or bottom up).
+The result should be a linear tree.</p>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">prune_min</span><span class="hljs-params">(t)</span>:</span>
+    <span class="hljs-string">"""Prune the tree mutatively from the bottom up.
+
+    &gt;&gt;&gt; t1 = Tree(6)
+    &gt;&gt;&gt; prune_min(t1)
+    &gt;&gt;&gt; t1
+    Tree(6)
+    &gt;&gt;&gt; t2 = Tree(6, [Tree(3), Tree(4)])
+    &gt;&gt;&gt; prune_min(t2)
+    &gt;&gt;&gt; t2
+    Tree(6, [Tree(3)])
+    &gt;&gt;&gt; t3 = Tree(6, [Tree(3, [Tree(1), Tree(2)]), Tree(5, [Tree(3), Tree(4)])])
+    &gt;&gt;&gt; prune_min(t3)
+    &gt;&gt;&gt; t3
+    Tree(6, [Tree(3, [Tree(1)])])
+    """</span>
+    <span class="hljs-string">"*** YOUR CODE HERE ***"</span>
+</code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q prune_min</code></pre>
+
+
+<h2 id="scheme">Scheme</h2>
+
+
+<h3 class="question" id="q2">Q2: Split</h3>
+
+<p>Implement <code>split-at</code>, which takes a list <code>lst</code> and a positive number <code>n</code> as
+input and returns a pair <code>new</code> such that <code>(car new)</code> is the first <code>n</code>
+elements of <code>lst</code> and <code>(cdr new)</code> is the remaining elements of <code>lst</code>. If <code>n</code> is
+greater than the length of <code>lst</code>, <code>(car new)</code> should be <code>lst</code> and <code>(cdr new)</code>
+should be <code>nil</code>.</p>
+
+<solution>
+
+<pre><code class="scheme hljs">(<span class="hljs-name"><span class="hljs-keyword">define</span></span> (<span class="hljs-name">split-at</span> lst n)
+  <span class="hljs-symbol">'YOUR-CODE-HERE</span>
+)</code></pre>
+
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q split-at</code></pre>
+
+
+<h2 id="recursion">Recursion</h2>
+
+
+<h3 class="question" id="q3">Q3: Align Skeleton</h3>
+
+<p>Have you wondered how your CS61A exams are graded online? To see how your submission differs from the solution skeleton code,
+<code>okpy</code> uses an algorithm very similar to the one below which shows us the minimum number of edit operations needed to
+transform the the skeleton code into your submission.</p>
+
+<p>Similar to <code>meowstake_matches</code> in Cats, we consider two different edit operations:</p>
+
+<ol>
+  <li>Insert a letter to the skeleton code</li>
+  <li>Delete a letter from the skeleton code</li>
+</ol>
+
+<p>Given two strings, <code>skeleton</code> and <code>code</code>, implement <code>align_skeleton</code>, a function that minimizes the edit distance between
+the two strings and returns a string of all the edits. Each addition is
+represented with <code>+[]</code>, and each deletion is represented with <code>-[]</code>. For example:</p>
+
+<pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>align_skeleton(skeleton = <span class="hljs-string">"x=5"</span>, code = <span class="hljs-string">"x=6"</span>)
+<span class="hljs-string">'x=+[6]-[5]'</span>
+<span class="hljs-meta">&gt;&gt;&gt; </span>align_skeleton(skeleton = <span class="hljs-string">"while x&lt;y"</span>, code = <span class="hljs-string">"for x&lt;y"</span>)
+<span class="hljs-string">'+[f]+[o]+[r]-[w]-[h]-[i]-[l]-[e]x&lt;y'</span></code></pre>
+
+<p>In the first example, the <code>+[6]</code> represents adding a "6" to the skeleton code, while the <code>-[5]</code> represents removing a "5" to the skeleton code.
+In the second example, we add in the letters "f", "o", and "r" and remove the letters "w", "h", "i", "l", and "e" from the skeleton code to
+transform it to the submitted code.</p>
+
+<blockquote><p>Note: For simplicity, all whitespaces are stripped from both the skeleton and submitted code, so you don't have to consider whitespaces in your logic.</p></blockquote>
+
+<p><code>align_skeleton</code> uses a recursive helper function, <code>helper_align</code>, which takes in <code>skeleton_idx</code> and <code>code_idx</code>, the indices of the letters
+from <code>skeleton</code> and <code>code</code> which we are comparing. It returns two things: match, the sequence of edit corrections, and cost, the numer of edit
+operations made. First, you should define your three base cases:</p>
+
+<ul>
+  <li>If both <code>skeleton_idx</code> and <code>code_idx</code> are at the end of their respective strings, then there are no more operations to be made.</li>
+  <li>If we have not finished considering all letters in <code>skeleton</code> but we have considered all letters in <code>code</code>, then
+  we simply need to delete all the remaining letters in <code>skeleton</code> to match it to <code>code</code>.</li>
+  <li>If we have not finished considering all letters in <code>code</code> but we have considered all letters in <code>skeleton</code> , then
+  we simply need to add all the remaining letters in <code>code</code> to <code>skeleton</code>.</li>
+</ul>
+
+<p>Next, you should implement the rest of the edit operations for <code>align_skeleton</code> and <code>helper_align</code>. You may not need all the lines provided.</p>
+
+<solution>
+
+<pre><code class="python hljs"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">align_skeleton</span><span class="hljs-params">(skeleton, code)</span>:</span>
+    <span class="hljs-string">"""
+    Aligns the given skeleton with the given code, minimizing the edit distance between
+    the two. Both skeleton and code are assumed to be valid one-line strings of code. 
+
+    &gt;&gt;&gt; align_skeleton(skeleton="", code="")
+    ''
+    &gt;&gt;&gt; align_skeleton(skeleton="", code="i")
+    '+[i]'
+    &gt;&gt;&gt; align_skeleton(skeleton="i", code="")
+    '-[i]'
+    &gt;&gt;&gt; align_skeleton(skeleton="i", code="i")
+    'i'
+    &gt;&gt;&gt; align_skeleton(skeleton="i", code="j")
+    '+[j]-[i]'
+    &gt;&gt;&gt; align_skeleton(skeleton="x=5", code="x=6")
+    'x=+[6]-[5]'
+    &gt;&gt;&gt; align_skeleton(skeleton="return x", code="return x+1")
+    'returnx+[+]+[1]'
+    &gt;&gt;&gt; align_skeleton(skeleton="while x&lt;y", code="for x&lt;y")
+    '+[f]+[o]+[r]-[w]-[h]-[i]-[l]-[e]x&lt;y'
+    &gt;&gt;&gt; align_skeleton(skeleton="def f(x):", code="def g(x):")
+    'def+[g]-[f](x):'
+    """</span>
+    skeleton, code = skeleton.replace(<span class="hljs-string">" "</span>, <span class="hljs-string">""</span>), code.replace(<span class="hljs-string">" "</span>, <span class="hljs-string">""</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">helper_align</span><span class="hljs-params">(skeleton_idx, code_idx)</span>:</span>
+        <span class="hljs-string">"""
+        Aligns the given skeletal segment with the code.
+        Returns (match, cost)
+            match: the sequence of corrections as a string
+            cost: the cost of the corrections, in edits
+        """</span>
+        <span class="hljs-keyword">if</span> skeleton_idx == len(skeleton) <span class="hljs-keyword">and</span> code_idx == len(code):
+            <span class="hljs-keyword">return</span> _________, ______________
+        <span class="hljs-keyword">if</span> skeleton_idx &lt; len(skeleton) <span class="hljs-keyword">and</span> code_idx == len(code):
+            edits = <span class="hljs-string">""</span>.join([<span class="hljs-string">"-["</span> + c + <span class="hljs-string">"]"</span> <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> skeleton[skeleton_idx:]])
+            <span class="hljs-keyword">return</span> _________, ______________
+        <span class="hljs-keyword">if</span> skeleton_idx == len(skeleton) <span class="hljs-keyword">and</span> code_idx &lt; len(code):
+            edits = <span class="hljs-string">""</span>.join([<span class="hljs-string">"+["</span> + c + <span class="hljs-string">"]"</span> <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> code[code_idx:]])
+            <span class="hljs-keyword">return</span> _________, ______________
+
+        possibilities = []
+        skel_char, code_char = skeleton[skeleton_idx], code[code_idx]
+        <span class="hljs-comment"># Match</span>
+        <span class="hljs-keyword">if</span> skel_char == code_char:
+            _________________________________________
+            _________________________________________
+            possibilities.append((_______, ______))
+        <span class="hljs-comment"># Insert</span>
+        _________________________________________
+        _________________________________________
+        possibilities.append((_______, ______))
+        <span class="hljs-comment"># Delete</span>
+        _________________________________________
+        _________________________________________
+        possibilities.append((_______, ______))
+        <span class="hljs-keyword">return</span> min(possibilities, key=<span class="hljs-keyword">lambda</span> x: x[<span class="hljs-number">1</span>])
+    result, cost = ________________________
+    <span class="hljs-keyword">return</span> result</code></pre>
+
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q align_skeleton</code></pre>
+
+
+<h2 id="tree-recursion">Tree Recursion</h2>
+
+
+<h3 class="question" id="q4">Q4: Num Splits</h3>
+
+<p>Given a list of numbers <code>s</code> and a target difference <code>d</code>, how many
+different ways are there to split <code>s</code> into two subsets such that the
+sum of the first is within <code>d</code> of the sum of the second? The number of
+elements in each subset can differ.</p>
+
+<p>You may assume that the elements in <code>s</code> are distinct and that <code>d</code> is always non-negative.</p>
+
+<p>Note that the order of the elements within each subset does not matter, nor does
+the order of the subsets themselves. For example, given the list <code>[1, 2, 3]</code>,
+you should not count <code>[1, 2], [3]</code> and <code>[3], [1, 2]</code> as distinct splits.</p>
+
+<blockquote><p>Hint: If the number you return is too large, you may be double-counting somewhere.
+If the result you return is off by some constant factor, it will likely be easiest
+to simply divide/subtract away that factor.</p></blockquote>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">num_splits</span><span class="hljs-params">(s, d)</span>:</span>
+    <span class="hljs-string">"""Return the number of ways in which s can be partitioned into two
+    sublists that have sums within d of each other.
+
+    &gt;&gt;&gt; num_splits([1, 5, 4], 0)  # splits to [1, 4] and [5]
+    1
+    &gt;&gt;&gt; num_splits([6, 1, 3], 1)  # no split possible
+    0
+    &gt;&gt;&gt; num_splits([-2, 1, 3], 2) # [-2, 3], [1] and [-2, 1, 3], []
+    2
+    &gt;&gt;&gt; num_splits([1, 4, 6, 8, 2, 9, 5], 3)
+    12
+    """</span>
+    <span class="hljs-string">"*** YOUR CODE HERE ***"</span>
+</code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q num_splits</code></pre>
+
+
+<h2 id="linked-lists">Linked Lists</h2>
+
+
+<h3 class="question" id="q5">Q5: Insert</h3>
+
+<p>Implement a function <code>insert</code> that takes a <code>Link</code>, a <code>value</code>, and an
+<code>index</code>, and inserts the <code>value</code> into the <code>Link</code> at the given <code>index</code>.
+You can assume the linked list already has at least one element. Do not
+return anything -- <code>insert</code> should mutate the linked list.</p>
+
+<blockquote><p><strong>Note</strong>: If the index is out of bounds, you can raise an <code>IndexError</code> with:</p>
+
+<pre><code class="hljs python"><span class="hljs-keyword">raise</span> IndexError</code></pre></blockquote>
+
+<solution>
+
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">insert</span><span class="hljs-params">(link, value, index)</span>:</span>
+    <span class="hljs-string">"""Insert a value into a Link at the given index.
+
+    &gt;&gt;&gt; link = Link(1, Link(2, Link(3)))
+    &gt;&gt;&gt; print(link)
+    &lt;1 2 3&gt;
+    &gt;&gt;&gt; insert(link, 9001, 0)
+    &gt;&gt;&gt; print(link)
+    &lt;9001 1 2 3&gt;
+    &gt;&gt;&gt; insert(link, 100, 2)
+    &gt;&gt;&gt; print(link)
+    &lt;9001 1 100 2 3&gt;
+    &gt;&gt;&gt; insert(link, 4, 5)
+    IndexError
+    """</span>
+    <span class="hljs-keyword">if</span> ____________________:
+        ____________________
+        ____________________
+        ____________________
+    <span class="hljs-keyword">elif</span> ____________________:
+        ____________________
+    <span class="hljs-keyword">else</span>:
+        ____________________
+
+</code></pre>
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q insert</code></pre>
+
+
+<h2 id="macros">Macros</h2>
+
+
+<h3 class="question" id="q6">Q6: Switch</h3>
+
+<p>Define the macro <code>switch</code>, which takes in an expression <code>expr</code> and a list of pairs, <code>cases</code>, where the first element of the pair
+is some <em>value</em> and the second element is a single expression. <code>switch</code> will evaluate the expression contained in the list
+of <code>cases</code> that corresponds to the value that <code>expr</code> evaluates to.</p>
+
+<pre><code class="scheme hljs">scm&gt; (<span class="hljs-name">switch</span> (<span class="hljs-name">+</span> <span class="hljs-number">1</span> <span class="hljs-number">1</span>) ((<span class="hljs-name">1</span> (<span class="hljs-name">print</span> <span class="hljs-symbol">'a</span>))
+                      (<span class="hljs-name">2</span> (<span class="hljs-name">print</span> <span class="hljs-symbol">'b</span>))
+                      (<span class="hljs-name">3</span> (<span class="hljs-name">print</span> <span class="hljs-symbol">'c</span>))))
+b</code></pre>
+
+
+
+<p>You may assume that the value <code>expr</code> evaluates to is always the first element of one of the pairs in <code>cases</code>. You can also assume that the first value of each pair in
+<code>cases</code> is a value.</p>
+
+<solution>
+
+<pre><code class="scheme hljs">(<span class="hljs-name"><span class="hljs-keyword">define-macro</span></span> (<span class="hljs-name">switch</span> expr cases)
+	(<span class="hljs-name">cons</span> _________
+		(<span class="hljs-name">map</span> (<span class="hljs-name">_________</span> (<span class="hljs-name">_________</span>) (<span class="hljs-name">cons</span> _________ (<span class="hljs-name">cdr</span> case)))
+    			cases))
+)</code></pre>
+
+
+</solution>
+
+<p>Use Ok to test your code:</p><pre><code class="nohighlight">python3 ok -q switch</code></pre>
+
+
+<h2 id="submit">Submit</h2>
+
+
+<p>Make sure to submit this assignment by running:</p>
+
+<pre><code class="hljs sql">python3 ok <span class="hljs-comment">--submit</span></code></pre>
+<script>
+    $('.alwaystoggle').css('display', 'inline-block');
+    $('.alwaystoggle').click(function() {
+      var solution_id = $(this).attr('id');
+      $('div.' + solution_id).slideToggle(600);
+    });
+</script>
+
+  </div>
+
+  <div class="col-md-3 sticky">
+    <nav class="hidden-print hidden-sm hidden-xs sidebar">
+      <ul class="nav nav-stacked noselect">
+  <li><a href="https://cs61a.org/lab/lab14/#required-questions">Required Questions</a></li>
+  <ul class="nav nav-stacked noselect">
+    <li><a href="https://cs61a.org/lab/lab14/#trees">Trees</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/lab14/#q1">Q1: Prune Min</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/lab14/#scheme">Scheme</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/lab14/#q2">Q2: Split</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/lab14/#recursion">Recursion</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/lab14/#q3">Q3: Align Skeleton</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/lab14/#tree-recursion">Tree Recursion</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/lab14/#q4">Q4: Num Splits</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/lab14/#linked-lists">Linked Lists</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/lab14/#q5">Q5: Insert</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/lab14/#macros">Macros</a></li>
+    <ul class="nav nav-stacked noselect">
+      <li><a href="https://cs61a.org/lab/lab14/#q6">Q6: Switch</a></li>
+    </ul>
+    <li><a href="https://cs61a.org/lab/lab14/#submit">Submit</a></li>
+  </ul>
+</ul>
+    </nav>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="container">
+      <div class="row text-center">
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/">CS 61A</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/weekly.html">Weekly Schedule</a></li>
+            <li><a href="https://cs61a.org/office-hours.html">Office Hours</a></li>
+            <li><a href="https://cs61a.org/staff.html">Staff</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/resources.html">Resources</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/articles/studying.html">Studying Guide</a></li>
+            <li><a href="https://cs61a.org/articles/debugging.html">Debugging Guide</a></li>
+            <li><a href="https://cs61a.org/articles/composition.html">Composition Guide</a></li>
+          </ul>
+        </div>
+        <div class="col col-sm-4">
+          <h3><a href="https://cs61a.org/articles/about.html">Policies</a></h3>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://cs61a.org/articles/about.html#assignments">Assignments</a></li>
+            <li><a href="https://cs61a.org/articles/about.html#exams">Exams</a></li>
+            <li><a href="https://cs61a.org/articles/about.html#grading">Grading</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    
+
+<script>
+  $('.sidebar ul').addClass('nav nav-stacked noselect');
+  $('body').scrollspy({
+    target: '.sidebar',
+    offset: 40
+  });
+
+  function goToId(id) {
+    var target = $(id);
+    console.log(target);
+    target.parent().show();
+    $('html,body').animate({
+      scrollTop: target.offset().top,
+    }, 100);
+    $("body").scrollspy('refresh');
+  }
+
+  if (location.hash) {
+    setTimeout(function() {
+      // window.scrollTo(0, 0);
+      if (location.hash) {
+        goToId(location.hash);
+      }
+    }, 1);
+  }
+
+  $("a").click(function(event) {
+    var urlBeforeHashRegEx = new RegExp("^"+window.location.href.split("#")[0]);
+    if (/^#/.test(this.hash) && urlBeforeHashRegEx.test(this.href)) {
+      event.preventDefault();
+      goToId(this.hash);
+      document.location.hash = this.hash;
+    }
+  });
+</script>
+
+  
+</body></html>
